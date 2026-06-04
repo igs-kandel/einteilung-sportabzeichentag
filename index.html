@@ -509,6 +509,16 @@ function formatInfoLine(text){
 
 let currentTeacherIndex = null;
 
+
+const riegefuehrerLehrer = [
+"DUD","EDI","FIL","FRE","HAJ","HER","HRZ","HIR",
+"LAG","LÜC","MEY","OBL","PIE","SCH","SOL","STB",
+"SBG","TRD","ULM","WES","ZAM","PRZ","SCD","SIE",
+"SIM","STÜ","URG","VAL","VEN","ENG","ERT","FAL",
+"HEI","KOB","LUP","RUF","SAS","WIL","WIE","ZAE",
+"BOJ"
+];
+
 function renderTeacher(person){
   const lines = teacherInfos[person.kuerzel] || [];
   let html = "Hallo " + person.vorname + "!";
@@ -519,6 +529,13 @@ function renderTeacher(person){
       html += "<span class='info-line'>" + formatInfoLine(line) + "</span>";
     });
     html += "</span>";
+  }
+
+  if(riegefuehrerLehrer.includes(person.kuerzel)){
+    html += `<div class="eis-hinweis-box"><strong>Info:</strong><br>
+    Wenn ihr als Riegeführer mit eurer Klasse zu einer Station kommt, die gerade noch besetzt ist:
+    Wartet bitte mit etwas Abstand davor, sodass der Stationenbetrieb dort nicht gestört wird!
+    </div>`;
   }
 
   html += "<br><button class='info-material-btn' onclick='showInfoMaterial()'>Infomaterial</button>";
@@ -757,6 +774,17 @@ function renderStudent(student){
   const hasEisverkauf = student.lines && student.lines.some(line => String(line).toLowerCase().includes("eisverkauf"));
   if(hasEisverkauf){
     html += "<span class='info-list'><span class='eis-hinweis-box'>Leider dürft ihr am Sportabzeichentag nur Eis verkaufen. Sprecht euch ab und organisiert den Verkauf bitte eigenständig: Yara Elisa Becht, Dan-Alexandru Gabor, Maximilian Linus Hardardt, Valentin Laurenz Rinck, Philipp Stiller</span></span>";
+  }
+
+
+  const istSchuelerRiegefuehrung = student.lines && student.lines.some(line =>
+    /\bRiegeführ(?:er|ung)\b/i.test(String(line))
+  );
+  if(istSchuelerRiegefuehrung){
+    html += `<div class="eis-hinweis-box"><strong>Info:</strong><br>
+    Wenn ihr als Riegeführer mit eurer Klasse zu einer Station kommt, die gerade noch besetzt ist:
+    Wartet bitte mit etwas Abstand davor, sodass der Stationenbetrieb dort nicht gestört wird!
+    </div>`;
   }
 
   html += "<br><button class='info-material-btn' onclick='showInfoMaterial()'>Infomaterial</button>";
