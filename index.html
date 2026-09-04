@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Einteilung Sportabzeichentag</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><text y=%2250%22 font-size=%2250%22>🏆</text></svg>">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;color:#0f172a}
+.bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.portrait{display:block}.landscape{display:none}
+@media (orientation:landscape){.portrait{display:none}.landscape{display:block}}
+
+.screen{position:relative;z-index:2;width:100%;height:100vh;display:none;align-items:center;justify-content:center;padding:24px;overflow:auto}
+.screen.active{display:flex}
+
+.button-wrapper{width:min(1000px,90vw);display:flex;justify-content:center;align-items:center;gap:40px;flex-wrap:wrap}
+.glass-btn{width:min(420px,85vw);height:120px;border-radius:35px;border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 20px 40px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.5);color:#0f172a;font-size:3rem;font-weight:900;cursor:pointer;transition:.2s}
+.glass-btn:hover,.small-btn:hover,.info-btn:hover,.material-btn:hover{transform:translateY(-3px);background:rgba(255,255,255,.28)}
+
+.teacher-box,.student-box{width:min(620px,92vw);padding:30px;border-radius:34px;border:2px solid rgba(255,255,255,.45);background:rgba(255,255,255,.18);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 20px 45px rgba(0,0,0,.22);text-align:center}
+.teacher-box h1,.student-box h1{margin:0 0 22px;font-size:clamp(2rem,5vw,3rem);font-weight:900}
+select{width:100%;min-height:72px;border-radius:24px;border:2px solid rgba(255,255,255,.55);background:rgba(255,255,255,.78);color:#0f172a;font-size:1.7rem;font-weight:900;text-align:center;padding:0 20px;cursor:pointer;box-shadow:0 12px 28px rgba(0,0,0,.15)}
+
+.nav-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.small-btn,.info-btn,.material-btn,.close-btn{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 10px 24px rgba(0,0,0,.16);color:#0f172a;font-weight:900;cursor:pointer}
+.small-btn{border-radius:18px;padding:14px 22px;font-size:1.1rem}
+.top-back{position:fixed;right:22px;top:22px;z-index:5}
+
+.content{position:absolute;top:28px;left:28px;right:28px;z-index:3;max-width:1100px}
+.hello-plain{font-size:clamp(1.15rem,3.5vw,2.5rem);font-weight:900;margin:0 0 24px;text-align:left;position:absolute;top:28px;left:28px;line-height:1.3;max-width:1100px}
+.info-list{font-size:1.1em;font-weight:700;display:block;margin-top:18px;line-height:1.5;max-width:1050px}
+.info-line{display:block;margin:14px 0}
+.time-block{display:block;font-weight:900;margin-bottom:4px}
+.task-detail{display:block;margin-left:30px;font-weight:700}
+.station-tag{display:inline-block;padding:4px 10px;border-radius:999px;background:#dbeafe;color:#1e3a8a;font-weight:900;margin:0 3px;white-space:nowrap}
+
+.task-list{font-size:clamp(1rem,2.2vw,1.55rem);font-weight:800;line-height:1.45;text-align:left}
+.task-row{margin:12px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.info-btn{border-radius:14px;padding:9px 17px;font-size:1rem}
+.material-btn{margin-top:16px;border-radius:18px;padding:14px 24px;font-size:1.25rem}
+
+dialog{border:0;border-radius:26px;padding:0;width:min(760px,92vw);max-height:90vh;overflow:hidden;background:rgba(255,255,255,.94);box-shadow:0 28px 70px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(0,0,0,.35)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid rgba(15,23,42,.12);font-weight:900;font-size:1.4rem}
+.modal-body{margin:14px;padding:22px;max-height:calc(90vh - 90px);overflow:auto;font-size:1.25rem;font-weight:750;line-height:1.45;white-space:pre-line;background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.9);border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.close-btn{border-radius:14px;padding:10px 14px;font-size:1rem;background:rgba(239,68,68,.18);color:#7f1d1d}
+.material-list{display:grid;gap:18px}
+.material-list img{width:100%;height:auto;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,.16);background:white}
+
+@media (max-width:700px){
+  .button-wrapper{gap:24px}
+  .glass-btn{height:95px;font-size:2.2rem;border-radius:28px}
+  select{font-size:1.35rem;min-height:64px}
+  .content{top:18px;left:18px;right:18px}
+  .hello-plain{top:18px;left:18px;right:18px}
+  .top-back{right:14px;top:14px}
+}
+
+.info-material-btn{transform:scale(0.72);opacity:0.92;
+  margin-top:-20px;
+  position:relative;
+  overflow:hidden;
+  border:2px solid rgba(255,255,255,.78);
+  border-radius:30px;
+  padding:32px 62px;
+  background:
+    radial-gradient(circle at 25% 18%, rgba(255,255,255,.95) 0%, rgba(255,255,255,.38) 18%, transparent 38%),
+    linear-gradient(145deg,#dcfce7 0%,#86efac 42%,#22c55e 72%,#16a34a 100%);
+  color:#064e3b;
+  font-size:1.1em;
+  font-weight:950;
+  letter-spacing:.02em;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.85),
+    0 2px 6px rgba(6,78,59,.18);
+  box-shadow:
+    0 16px 0 #15803d,
+    0 24px 36px rgba(0,0,0,.30),
+    inset 0 3px 0 rgba(255,255,255,.9),
+    inset 0 -7px 14px rgba(6,95,70,.32);
+  cursor:pointer;
+  transition:transform .14s ease, box-shadow .14s ease, filter .14s ease;
+}
+
+.info-material-btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,.45) 35%,transparent 58%);
+  transform:translateX(-120%);
+  transition:transform .45s ease;
+  pointer-events:none;
+}
+
+.info-material-btn:hover{
+  transform:translateY(-4px);
+  filter:saturate(1.12) brightness(1.04);
+  box-shadow:
+    0 20px 0 #15803d,
+    0 30px 44px rgba(0,0,0,.32),
+    inset 0 3px 0 rgba(255,255,255,.95),
+    inset 0 -7px 14px rgba(6,95,70,.32);
+}
+
+.info-material-btn:hover::after{
+  transform:translateX(120%);
+}
+
+.info-material-btn:active{
+  transform:translateY(10px);
+  box-shadow:
+    0 6px 0 #15803d,
+    0 12px 20px rgba(0,0,0,.28),
+    inset 0 2px 5px rgba(255,255,255,.72),
+    inset 0 -3px 8px rgba(6,95,70,.35);
+}
+.info-page{
+  position:relative;
+  z-index:3;
+  width:min(980px,92vw);
+  min-height:100vh;
+  padding:86px 22px 30px;
+}
+.info-title{
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:900;
+  margin:0 0 28px;
+  color:#0f172a;
+}
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:18px;
+}
+.info-menu-btn{
+  min-height:76px;
+  border:2px solid rgba(255,255,255,.55);
+  border-radius:24px;
+  background:rgba(255,255,255,.28);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  color:#0f172a;
+  font-size:1.25rem;
+  font-weight:900;
+  box-shadow:0 14px 30px rgba(0,0,0,.18);
+  cursor:pointer;
+}
+.info-menu-btn:hover{
+  transform:translateY(-3px);
+  background:rgba(255,255,255,.42);
+}
+
+
+#imageViewerScreen{
+  overflow-y:auto !important;
+  align-items:flex-start !important;
+}
+
+#imageViewerScreen .info-page{
+  min-height:auto !important;
+  padding-top:120px !important;
+}
+
+#infoImage{
+  width:100% !important;
+  height:auto !important;
+  display:block !important;
+  object-fit:contain !important;
+  margin-top:20px !important;
+}
+
+
+#subInfoScreen{
+  overflow-y:auto !important;
+  align-items:flex-start !important;
+}
+
+#subInfoScreen .info-page{
+  min-height:auto !important;
+  padding-top:120px !important;
+  padding-bottom:50px !important;
+}
+
+#subInfoButtons img{
+  width:100% !important;
+  height:auto !important;
+  display:block !important;
+  object-fit:contain !important;
+  margin-top:0 !important;
+}
+
+
+.start-title{
+  position:absolute;
+  top:12vh;
+  left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+  color:#0f172a;
+  font-weight:900;
+  z-index:3;
+  line-height:1.25;
+}
+.start-title .start-main{
+  font-size:clamp(1.8rem,4vw,3.2rem);
+}
+.start-title .start-date{
+  font-size:clamp(1.2rem,2.8vw,2rem);
+  margin-top:8px;
+}
+.start-title .start-final{
+  font-size:clamp(1.2rem,2.8vw,2rem);
+  margin-top:1.25em;
+  letter-spacing:.04em;
+}
+
+
+.eis-hinweis-box{
+  display:block;
+  width:min(1050px, calc(100vw - 56px));
+  margin:26px 0 18px 0;
+  padding:22px 28px;
+  border-radius:24px;
+  border:2px solid rgba(255,255,255,.72);
+  background:rgba(255,255,255,.58);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  box-shadow:0 14px 32px rgba(0,0,0,.16);
+  color:#0f172a;
+  font-size:.55em;
+  font-weight:850;
+  line-height:1.35;
+}
+
+
+
+/* NUR Startseite: Überschrift höher, drei Startknöpfe tiefer */
+#startScreen .start-title{
+  top:5vh !important;
+}
+
+#startScreen .button-wrapper{
+  transform:translateY(95px) !important;
+}
+
+
+/* NUR Teams-Seite: Liste oben beginnen lassen und vollständig scrollbar machen */
+#teamScreen{
+  align-items:flex-start !important;
+  justify-content:center !important;
+  overflow-y:auto !important;
+}
+
+#teamScreen .info-page{
+  min-height:auto !important;
+  padding-top:90px !important;
+  padding-bottom:60px !important;
+}
+.team-section{margin:0 0 30px}
+.team-section-title{margin:0 0 14px;font-size:clamp(1.35rem,3vw,2rem);font-weight:900;color:#0f172a}
+.team-member-section{margin:0 0 20px}
+.team-member-heading{margin:0 0 10px;font-size:1.1rem;font-weight:900;color:#334155}
+.team-member-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px}
+.team-member{padding:10px 13px;border-radius:13px;background:rgba(255,255,255,.62);border:1px solid rgba(15,23,42,.1);font-weight:800}
+.team-empty{font-weight:700;color:#475569}
+.team-material-list{display:grid;gap:16px}
+.team-material-list img{display:block;width:100%;height:auto;border-radius:16px;background:white;box-shadow:0 10px 24px rgba(0,0,0,.16)}
+
+
+.soft-note{
+  display:block;
+  font-weight:500 !important;
+  font-size:0.82em !important;
+  line-height:1.35;
+  margin:4px 0;
+}
+
+#helloScreen{
+  align-items:flex-start;
+  justify-content:flex-start;
+  padding:28px;
+}
+
+#helloScreen .hello-plain{
+  position:relative;
+  top:auto;
+  left:auto;
+  width:min(1100px,calc(100vw - 56px));
+  max-width:1100px;
+  margin:0;
+  padding:28px 32px;
+  font-size:clamp(1.035rem,3.15vw,2.25rem);
+  background:rgba(255,255,255,.64);
+  border:1px solid rgba(255,255,255,.92);
+  border-radius:24px;
+  box-shadow:0 18px 45px rgba(0,0,0,.2);
+}
+
+.riege-hinweis{
+  display:block !important;
+  margin-top:1em !important;
+  font-size:0.3125em !important;
+  font-weight:400 !important;
+  line-height:1.3 !important;
+}
+
+
+.password-form{display:grid;gap:14px;padding:22px}
+.password-form label{font-size:1.15rem;font-weight:900;text-align:left}
+.password-hint{margin:-6px 0 2px;color:#334155;font-size:1rem;font-weight:700;text-align:left}
+.password-form input{width:100%;min-height:64px;border-radius:18px;border:2px solid rgba(15,23,42,.18);background:white;color:#0f172a;font-size:1.8rem;font-weight:900;text-align:center;letter-spacing:.12em;padding:8px 16px}
+.password-actions{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;margin-top:4px}
+.password-error{min-height:1.4em;color:#b91c1c;font-weight:900;text-align:left}
+.password-submit{border:1px solid rgba(255,255,255,.45);background:rgba(34,197,94,.28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 10px 24px rgba(0,0,0,.16);color:#064e3b;font-weight:900;cursor:pointer;border-radius:14px;padding:12px 18px;font-size:1.05rem}
+.password-submit:hover{transform:translateY(-2px);background:rgba(34,197,94,.40)}
+
+#studentInfoScreen{
+  align-items:flex-start;
+  justify-content:flex-start;
+  padding:28px;
+}
+#studentInfoScreen .content{
+  position:relative;
+  top:auto;
+  left:auto;
+  right:auto;
+  width:min(1100px,calc(100vw - 56px));
+  max-width:1100px;
+  padding:28px 32px;
+  margin:0;
+  background:rgba(255,255,255,.64);
+  border:1px solid rgba(255,255,255,.92);
+  border-radius:24px;
+  box-shadow:0 18px 45px rgba(0,0,0,.2);
+  font-size:clamp(1.035rem,3.15vw,2.25rem);
+  font-weight:900;
+  line-height:1.35;
+}
+.student-detail-list{display:block;margin-top:18px;font-size:.72em;line-height:1.5}
+.student-detail-card{display:block;margin-top:18px;padding:18px 22px;border-radius:18px;background:rgba(255,255,255,.48);border:1px solid rgba(255,255,255,.8)}
+.student-detail-label{display:block;margin-bottom:5px;font-size:.72em;color:#334155;text-transform:uppercase;letter-spacing:.04em}
+.student-detail-value{display:block;font-weight:850;white-space:pre-line}
+.student-riege-note{display:block;margin-top:16px;padding-top:16px;border-top:1px solid rgba(15,23,42,.16);font-size:.86em;font-weight:700;line-height:1.5}
+
+</style>
+</head>
+<body>
+<img src="background_portrait.jpg" class="bg portrait" alt="">
+<img src="background_landscape.jpg" class="bg landscape" alt="">
+
+<main id="startScreen" class="screen active">
+  <div class="start-title">
+    <div class="start-main">Sportabzeichentag der <span style="color:red;">I</span><span style="color:#facc15;">G</span><span style="color:green;">S</span> Kandel</div>
+    <div class="start-date">07. September 2026</div>
+    <div class="start-final">FINALE EINTEILUNG</div>
+  </div>
+  <div class="button-wrapper">
+    <button class="glass-btn" onclick="showTeacherMenu()">Lehrer</button>
+    <button class="glass-btn" onclick="showStudentMenu()">Schüler</button>
+    <button class="glass-btn" onclick="openTeams()">Teams</button>
+  </div>
+</main>
+
+
+<main id="teamScreen" class="screen">
+  <button class="small-btn top-back" onclick="closeTeamsPage()">Zurück zur Startseite</button>
+  <div class="info-page">
+    <h1 class="info-title">Teams</h1>
+    <div id="teamButtons"></div>
+  </div>
+</main>
+
+<main id="teacherScreen" class="screen">
+  <button class="small-btn top-back" onclick="showStart()">Zurück zur Startseite</button>
+  <div class="teacher-box">
+    <h1>Lehrer auswählen</h1>
+    <select id="teacherSelect" onchange="selectTeacher()">
+      <option value="">Kürzel wählen</option>
+    </select>
+  </div>
+</main>
+
+<main id="studentScreen" class="screen">
+  <button class="small-btn top-back" onclick="showStart()">Zurück zur Startseite</button>
+  <div class="student-box">
+    <h1>Schüler auswählen</h1>
+    <select id="studentSelect" onchange="selectStudent()">
+      <option value="">Schüler wählen</option>
+    </select>
+  </div>
+</main>
+
+<main id="helloScreen" class="screen">
+  <button class="small-btn top-back" onclick="goBackFromHello()">Zurück</button>
+  <div id="normalHello" class="hello-plain"></div>
+</main>
+
+
+<main id="infoMaterialScreen" class="screen">
+  <button class="small-btn top-back" onclick="backFromInfoMaterial()">Zurück</button>
+  <div class="info-page">
+    <h1 class="info-title">Infomaterial</h1>
+    <div class="info-grid">
+      <button class="info-menu-btn" onclick="showSimpleInfoPage('Ablaufplan allgemein')">Ablaufplan allgemein</button>
+      <button class="info-menu-btn" onclick="showRiegeplaene()">Pläne für Riegeführung</button>
+      <button class="info-menu-btn" onclick="showSimpleInfoPage('Tribüne')">Tribüne</button>
+      <button class="info-menu-btn" onclick="showAufbauplaene()">Aufbauplan der Stationen</button>
+      <button class="info-menu-btn" onclick="showSimpleInfoPage('Stadionplan')">Stadionplan</button>
+      <button class="info-menu-btn" onclick="openTeams()">Teams</button>
+    </div>
+  </div>
+</main>
+
+<main id="subInfoScreen" class="screen">
+  <button class="small-btn top-back" onclick="showInfoMaterial()">Zurück</button>
+  <div class="info-page">
+    <h1 id="subInfoTitle" class="info-title"></h1>
+    <div id="subInfoButtons" class="info-grid"></div>
+  </div>
+</main>
+
+
+<main id="imageViewerScreen" class="screen">
+  <button class="small-btn top-back" onclick="showPreviousInfoSubPage()">Zurück</button>
+  <div class="info-page">
+    
+    <img id="infoImage" src="" alt="" style="width:100%;height:auto;border-radius:22px;box-shadow:0 18px 45px rgba(0,0,0,.25);background:white;">
+
+    
+    <div id="stadionplanExtra"><img src="Stadionplan.jpg" alt="Stadionplan" style="width:100%;height:auto;border-radius:22px;box-shadow:0 18px 45px rgba(0,0,0,.25);background:white;"></div>
+  </div>
+</main>
+
+
+<main id="stadionplanScreen" class="screen">
+  <button class="small-btn top-back" onclick="showInfoMaterial()">Zurück</button>
+  <div class="info-page">
+    <div id="stadionplanExtra"><img src="Stadionplan.jpg" alt="Stadionplan" style="width:100%;height:auto;border-radius:22px;box-shadow:0 18px 45px rgba(0,0,0,.25);background:white;"></div>
+  </div>
+</main>
+
+<main id="studentInfoScreen" class="screen">
+  <button class="small-btn top-back" onclick="showStudentMenu()">Zurück</button>
+  <div id="studentContent" class="content"></div>
+</main>
+
+<main id="blankScreen" class="screen"></main>
+
+
+<dialog id="releaseNoticeDialog">
+  <div class="modal-head">
+    <span>Hinweis</span>
+    <button class="close-btn" onclick="closeReleaseNotice()">Schließen</button>
+  </div>
+  <div class="modal-body">Dieser Bereich wird Ende der Woche für dich freigegeben.</div>
+</dialog>
+
+<dialog id="teamDialog">
+  <div class="modal-head">
+    <span>Teams</span>
+    <button class="close-btn" onclick="closeTeamPopup()">Schließen</button>
+  </div>
+  <div class="modal-body">folgt in Kürze!</div>
+</dialog>
+
+<dialog id="studentPasswordDialog">
+  <form method="dialog" class="password-form" onsubmit="checkStudentPassword(event)">
+    <div class="modal-head" style="padding:0 0 14px;border-bottom:1px solid rgba(15,23,42,.12);">
+      <span>Passwort eingeben</span>
+      <button class="close-btn" type="button" onclick="closeStudentPasswordPopup()">Schließen</button>
+    </div>
+    <label for="studentPasswordInput">Passwort</label>
+    <div class="password-hint">Nutze dein Geburtsdatum im Format TT.MM.JJJJ.</div>
+    <input id="studentPasswordInput" type="password" inputmode="text" maxlength="10" placeholder="TT.MM.JJJJ" autocomplete="off" autocapitalize="none" spellcheck="false">
+    <div id="studentPasswordError" class="password-error"></div>
+    <div class="password-actions">
+      <button class="close-btn" type="button" onclick="closeStudentPasswordPopup()">Abbrechen</button>
+      <button class="password-submit" type="submit">Öffnen</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="infoDialog">
+  <div class="modal-head">
+    <span>Info</span>
+    <button class="close-btn" onclick="closeInfo()">Schließen</button>
+  </div>
+  <div id="infoText" class="modal-body"></div>
+</dialog>
+
+<dialog id="materialDialog">
+  <div class="modal-head">
+    <span>Material</span>
+    <button class="close-btn" onclick="closeMaterial()">Schließen</button>
+  </div>
+  <div class="modal-body"></div>
+</dialog>
+
+<script src="students-data.js"></script>
+<script>
+const teachers = [{"laufendeNummer":"1","nachname":"Biernoth","vorname":"Helmuth","kuerzel":"BIN","ueberschrift1":"08:00 Uhr - 10:00 Uhr","text1":"Unterstützung bei Station Seilspringen C. Infos dazu bekommst du noch vorab. Abbau übernimmt MSS. Danke für deinen Einsatz!","ueberschrift2":"","text2":""},{"laufendeNummer":"2","nachname":"Bieling","vorname":"Sina","kuerzel":"BIE","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 5d: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 5d um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr am Tribünenplatz der Klasse 5d an LIC. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"3","nachname":"Busch (Ref. Gym)","vorname":"Lars","kuerzel":"BUS","ueberschrift1":"Stationsleitung Sprint A B C","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"4","nachname":"Bohlen","vorname":"Duscha","kuerzel":"BOH","ueberschrift1":"07:40 Uhr - 08:15 Uhr","text1":"Springer, bitte bei Turnierleitung melden.","ueberschrift2":"08:15 Uhr - 09:40 Uhr","text2":"Bitte Wolfgang beim Hochsprung unterstützen."},{"laufendeNummer":"5","nachname":"Bohnacker","vorname":"Judith","kuerzel":"BOJ","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 9d: Übernahme von HAJ um 10:00 Uhr bei Seilspringen A. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"6","nachname":"Brecht (Ref. FÖS)","vorname":"Tristan","kuerzel":"BRE","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 8c: Übernahme von FAL um 10:00 Uhr bei Standweitsprung B. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"7","nachname":"Doll","vorname":"Martina","kuerzel":"DOL","ueberschrift1":"","text1":"Da montags dein freier Tag ist, wirst du am Sporttag von uns auch nicht eingeteilt. Wir freuen uns natürlich trotzdem, wenn du deine Schüler anfeuern kommen möchtest. 🙂","ueberschrift2":"","text2":""},{"laufendeNummer":"8","nachname":"Dudenhöffer","vorname":"Lars","kuerzel":"DUD","ueberschrift1":"07:40 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 10b: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 10b um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse den gesamten Vormittag von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"9","nachname":"Edin","vorname":"Michaela","kuerzel":"EDI","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 8a: Übernahme von KOB um 10:00 Uhr am Tribünenplatz der Klasse 8a. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"10","nachname":"Engewald","vorname":"Andrea","kuerzel":"ENG","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 10a: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 10a um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr bei Standweitsprung C an ZAE. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"11","nachname":"Ertel","vorname":"Fabian","kuerzel":"ERT","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 5c: Übernahme von OBL um 10:00 Uhr bei Weitsprung A. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"12","nachname":"Faltermann","vorname":"Nadine","kuerzel":"FAL","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 8c: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 8c um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr bei Standweitsprung B an BRE. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"13","nachname":"Feit","vorname":"Iris","kuerzel":"FIS","ueberschrift1":"Stationsleitung Weitsprung A","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"14","nachname":"Fink-Rödel","vorname":"Almuth","kuerzel":"FIN","ueberschrift1":"Stationsleitung Kugelstoßen Mäd.","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"15","nachname":"Fischer","vorname":"Lisa","kuerzel":"FIL","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 6c: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 6c um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr am Tribünenplatz der Klasse 6c an SIM. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"16","nachname":"Fix","vorname":"Matthias","kuerzel":"FIX","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 7a: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 7a um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr am Tribünenplatz der Klasse 7a an LAG. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"17","nachname":"Freundlich","vorname":"Benjamin","kuerzel":"FRE","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 5a: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 5a um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr bei Standweitsprung A an SCD. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"10:00 Uhr - 11:00 Uhr","text2":"Springer: Bitte bei Stationsleitung melden!"},{"laufendeNummer":"18","nachname":"Günther","vorname":"Susanne","kuerzel":"GÜN","ueberschrift1":"","text1":"Da montags dein freier Tag ist, wirst du am Sporttag von uns auch nicht eingeteilt. Wir freuen uns natürlich trotzdem, wenn du deine Schüler anfeuern kommen möchtest. 🙂","ueberschrift2":"","text2":""},{"laufendeNummer":"19","nachname":"Hagn","vorname":"Jacqueline","kuerzel":"HAJ","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 9d: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 9d um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr bei Seilspringen A an BOJ. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"20","nachname":"Heid","vorname":"Susanne","kuerzel":"HEI","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 9b: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 9b um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr am Tribünenplatz der Klasse 9b an HEH. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"21","nachname":"Herrmann","vorname":"Hannah","kuerzel":"HER","ueberschrift1":"07:40 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 7d: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 7d um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse den gesamten Vormittag von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"22","nachname":"Herrmann","vorname":"Heike","kuerzel":"HEH","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 9b: Übernahme von HEI um 10:00 Uhr am Tribünenplatz der Klasse 9b. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"23","nachname":"Herz","vorname":"Oliver","kuerzel":"HRZ","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 9a: Übernahme von VEN um 10:00 Uhr am Tribünenplatz der Klasse 9a. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"08:45 Uhr - 09:45 Uhr","text2":"Aufsicht Tribüne."},{"laufendeNummer":"24","nachname":"Hirsch","vorname":"Scarlett","kuerzel":"HIR","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 7b: Übernahme von HIT um 10:00 Uhr bei Sprint A. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"25","nachname":"Hitzel","vorname":"Melanie","kuerzel":"HIT","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 7b: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 7b um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr bei Sprint A an HIR. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"26","nachname":"Höpner","vorname":"Hendrikje","kuerzel":"HOE","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 10d: Übernahme von NOW um 10:00 Uhr bei Seilspringen C. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"27","nachname":"Janßen","vorname":"Jakob","kuerzel":"JAJ","ueberschrift1":"Stationsleitung Weitwurf A","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"28","nachname":"Jonderko","vorname":"Benjamin","kuerzel":"JON","ueberschrift1":"08:15 Uhr - 10:00 Uhr","text1":"Unterstützung bei Station Standweitsprung B. Infos dazu bekommst du noch vorab. Abbau übernimmt MSS. Danke für deinen Einsatz!","ueberschrift2":"","text2":""},{"laufendeNummer":"29","nachname":"Kampen","vorname":"Gudrun","kuerzel":"KGU","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 8b: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 8b um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr am Tribünenplatz der Klasse 8b an ZAM. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"10:15 Uhr - 11:15 Uhr","text2":"Aufsicht Tribüne"},{"laufendeNummer":"30","nachname":"Kober-Sitter","vorname":"Benjamin","kuerzel":"KOB","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 8a: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 8a um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr am Tribünenplatz der Klasse 8a an EDI. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"31","nachname":"Kohl, Dr.","vorname":"Thomas","kuerzel":"KOH","ueberschrift1":"Stationsleitung Standweitsprung A B C","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"32","nachname":"Kuhn","vorname":"Olaf","kuerzel":"KUO","ueberschrift1":"Stationsleitung Sprint A B C","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"33","nachname":"Laag","vorname":"Alexandra","kuerzel":"LAG","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 7a: Übernahme von FIX um 10:00 Uhr am Tribünenplatz der Klasse 7a. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"34","nachname":"Dr.Lenk (Ref.RS+)","vorname":"Florian","kuerzel":"LEN","ueberschrift1":"","text1":"Seminartag","ueberschrift2":"","text2":""},{"laufendeNummer":"35","nachname":"Lamhaoui (Ref. Gym)","vorname":"Nadja","kuerzel":"LAM","ueberschrift1":"10:00 Uhr - 11:45 Uhr","text1":"Aufsicht Zielbereich Sprint (Schüler sollen nach dem Sprint entweder direkt zur Pause auf die Tribüne oder hinter dem Ziel auf Rest der Klasse warten. Schüler NICHT zurück zum Start lassen. Danke!)","ueberschrift2":"","text2":""},{"laufendeNummer":"36","nachname":"Lichtenberger","vorname":"Leonie","kuerzel":"LIC","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 5d: Übernahme von BIE um 10:00 Uhr am Tribünenplatz der Klasse 5d. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"37","nachname":"Loy (Ref.RS+)","vorname":"Anita","kuerzel":"LOY","ueberschrift1":"-","text1":"Verplant wegen Ref","ueberschrift2":"","text2":""},{"laufendeNummer":"38","nachname":"Luppert","vorname":"Sabine","kuerzel":"LUP","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 7c: Übernahme von SBG um 10:00 Uhr bei Sprint B. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"39","nachname":"Meyle, Dr.","vorname":"Angelika","kuerzel":"MEY","ueberschrift1":"","text1":"Da montags dein freier Tag ist, wirst du am Sporttag von uns auch nicht eingeteilt. Wir freuen uns natürlich trotzdem, wenn du deine Schüler anfeuern kommen möchtest. 🙂","ueberschrift2":"","text2":""},{"laufendeNummer":"40","nachname":"Müller-Berg","vorname":"Jörg","kuerzel":"MÜB","ueberschrift1":"Stationsleitung Weitwurf B","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"41","nachname":"Nowotschin","vorname":"Jürgen","kuerzel":"NOW","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 10d: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 10d um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr bei Seilspringen C an HOE. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"11:15 Uhr - 12:15 Uhr","text2":"Aufsicht Tribüne"},{"laufendeNummer":"42","nachname":"Oblio","vorname":"Tabea","kuerzel":"OBL","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 5c: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 5c um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr bei Weitsprung A an ERT. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"43","nachname":"Peris","vorname":"Heide","kuerzel":"PER","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Unterstützung bei Station Seilspringen C. Infos dazu bekommst du noch vorab. Abbau übernimmt MSS. Danke für deinen Einsatz!","ueberschrift2":"","text2":""},{"laufendeNummer":"44","nachname":"Piekenbrock","vorname":"Kenneth","kuerzel":"PIE","ueberschrift1":"07:40 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 6a: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 6a um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse den gesamten Vormittag von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"45","nachname":"Przygode","vorname":"Jens","kuerzel":"PRZ","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 9c: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 9c um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr bei Kugelstoßen an STÜ. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"46","nachname":"Reinhold","vorname":"Jule","kuerzel":"REI","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 6d: Übernahme von ULM um 10:00 Uhr am Tribünenplatz der Klasse 6d. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"47","nachname":"Ruf","vorname":"Nadine","kuerzel":"RUF","ueberschrift1":"","text1":"Wenn es dir mit vorangeschrittener Schwangerschaft entsprechend gut geht, darfst du gerne zum Anfeuern deiner Schüler kommen. Eine feste Einteilung bekommst du von uns aber nicht. Gutes Durchhalten für die letzten Wochen! 🤰👶","ueberschrift2":"","text2":""},{"laufendeNummer":"48","nachname":"Sauer","vorname":"Stefanie","kuerzel":"SAS","ueberschrift1":"","text1":"Wir freuen uns, wenn du wieder bei uns bist. 🍀 Alles Gute und bis bald!","ueberschrift2":"","text2":""},{"laufendeNummer":"49","nachname":"Schehr","vorname":"Dorothee","kuerzel":"SCD","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 5a: Übernahme von FRE um 10:00 Uhr bei Standweitsprung A. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"50","nachname":"Scheib","vorname":"Daniela","kuerzel":"SCH","ueberschrift1":"","text1":"Wenn es dir mit vorangeschrittener Schwangerschaft entsprechend gut geht, darfst du gerne zum Anfeuern deiner Schüler kommen. Eine feste Einteilung bekommst du von uns aber nicht. Gutes Durchhalten für die letzten Wochen! 🤰👶","ueberschrift2":"","text2":""},{"laufendeNummer":"51","nachname":"Scheidner","vorname":"Stephanie","kuerzel":"SCS","ueberschrift1":"","text1":"Da montags dein freier Tag ist, wirst du am Sporttag von uns auch nicht eingeteilt. Wir freuen uns natürlich trotzdem, wenn du deine Schüler anfeuern kommen möchtest. 🙂","ueberschrift2":"","text2":""},{"laufendeNummer":"52","nachname":"Schmidt","vorname":"Felix","kuerzel":"SMF","ueberschrift1":"Stationsleitung Sprint A B C","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"53","nachname":"Schmitt","vorname":"Sarah","kuerzel":"STT","ueberschrift1":"","text1":"Da montags dein freier Tag ist, wirst du am Sporttag von uns auch nicht eingeteilt. Wir freuen uns natürlich trotzdem, wenn du deine Schüler anfeuern kommen möchtest. 🙂","ueberschrift2":"","text2":""},{"laufendeNummer":"54","nachname":"Schön (Ref. Gym)","vorname":"Nele","kuerzel":"SCÖ","ueberschrift1":"08:00 Uhr - 09:00 Uhr","text1":"Aufsicht Stadion-Ein-/Ausgang. Schüler dürfen das Stadion während des Tages nicht verlassen.","ueberschrift2":"09:00 Uhr - 10:00 Uhr","text2":"Springer"},{"laufendeNummer":"55","nachname":"Schumacher","vorname":"Eric","kuerzel":"SMR","ueberschrift1":"Turnierleitung","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"56","nachname":"Senn","vorname":"Felix","kuerzel":"SEN","ueberschrift1":"Stationsleitung Kugelstoßen Ju.","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"57","nachname":"Siebert","vorname":"Janina","kuerzel":"SIE","ueberschrift1":"07:40 Uhr - 10:10 Uhr","text1":"Springer, bitte bei Turnierleitung melden","ueberschrift2":"","text2":""},{"laufendeNummer":"58","nachname":"Simsek","vorname":"Nadja","kuerzel":"SIM","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 6c: Übernahme von FIL um 10:00 Uhr am Tribünenplatz der Klasse 6c. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"59","nachname":"Soller","vorname":"Katharina","kuerzel":"SOL","ueberschrift1":"","text1":"Da montags dein freier Tag ist, wirst du am Sporttag von uns auch nicht eingeteilt. Wir freuen uns natürlich trotzdem, wenn du deine Schüler anfeuern kommen möchtest. 🙂","ueberschrift2":"","text2":""},{"laufendeNummer":"60","nachname":"Stein","vorname":"Swantje","kuerzel":"SIN","ueberschrift1":"10:00 Uhr - 13:00 Uhr","text1":"Springer, bitte bei Turnierleitung melden. Ab 12:40 Uhr Aufsicht Busstraße","ueberschrift2":"","text2":""},{"laufendeNummer":"61","nachname":"Steinbach, Dr.","vorname":"Kathrin","kuerzel":"STB","ueberschrift1":"10:00 Uhr - 12:30 Uhr","text1":"Springer, bitte bei Turnierleitung melden","ueberschrift2":"","text2":""},{"laufendeNummer":"62","nachname":"Steinberger","vorname":"Andrea","kuerzel":"SBG","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 7c: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 7c um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr bei Sprint B an LUP. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"10:00 Uhr - 11:00 Uhr","text2":"Aufsicht Stadion-Ein-/Ausgang. Schüler dürfen das Stadion während des Tages nicht verlassen."},{"laufendeNummer":"63","nachname":"Steiner","vorname":"Christian","kuerzel":"STE","ueberschrift1":"Stationsleitung Weitsprung B","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"64","nachname":"Stiegeler","vorname":"Wolfgang","kuerzel":"STI","ueberschrift1":"Stationsleitung Hochsprung J+M","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"65","nachname":"Stübinger","vorname":"Hendrik","kuerzel":"STÜ","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 9c: Übernahme von PRZ um 10:00 Uhr bei Kugelstoßen. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"09:00 Uhr - 10:00 Uhr","text2":"Aufsicht Stadion-Ein-/Ausgang. Schüler dürfen das Stadion während des Tages nicht verlassen."},{"laufendeNummer":"66","nachname":"Tromp","vorname":"Dorothea","kuerzel":"TRD","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 10c: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 10c um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr bei Hochsprung an ZIM. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"67","nachname":"Uhrig","vorname":"Günter","kuerzel":"URG","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Springer, bitte zur Turnierleitung kommen. DANKE!","ueberschrift2":"","text2":""},{"laufendeNummer":"68","nachname":"Ulm","vorname":"Andrea","kuerzel":"ULM","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 6d: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 6d um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr am Tribünenplatz der Klasse 6d an REI. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"69","nachname":"Venter","vorname":"Stephan","kuerzel":"VEN","ueberschrift1":"07:40 Uhr - 10:00 Uhr","text1":"Riegeführung Klasse 9a: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 9a um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr am Tribünenplatz der Klasse 9a an HRZ. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"70","nachname":"Werdelis","vorname":"Stephanie","kuerzel":"WES","ueberschrift1":"07:40 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 5b: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 5b um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse den gesamten Vormittag von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"71","nachname":"Werner","vorname":"Francisca","kuerzel":"WER","ueberschrift1":"08:15 Uhr - 10:15 Uhr","text1":"Unterstützung bei Station Seilspringen A. Infos dazu bekommst du noch vorab. Abbau übernimmt MSS. Danke für deinen Einsatz!","ueberschrift2":"","text2":""},{"laufendeNummer":"72","nachname":"Wieseke","vorname":"Ilonka","kuerzel":"WIE","ueberschrift1":"07:40 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 8d: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 8d um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse den gesamten Vormittag von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"73","nachname":"Wiese (Ref. Gym)","vorname":"Aileen","kuerzel":"WIS","ueberschrift1":"07:40 Uhr - 08:15 Uhr","text1":"Springer, bitte bei Turnierleitung melden.","ueberschrift2":"08:15 Uhr - 10:00 Uhr","text2":"Aufsicht Zielbereich Sprint (Schüler sollen nach dem Sprint entweder direkt zur Pause auf die Tribüne oder hinter dem Ziel auf Rest der Klasse warten. Schüler NICHT zurück zum Start lassen. Danke!)"},{"laufendeNummer":"74","nachname":"Wilhelm","vorname":"Susanne","kuerzel":"WIL","ueberschrift1":"07:40 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 6b: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 6b um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse den gesamten Vormittag von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"75","nachname":"Willich","vorname":"Mark","kuerzel":"WIM","ueberschrift1":"Stationsleitung Standweitsprung A B C","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"76","nachname":"Wolf","vorname":"Jens","kuerzel":"WOF","ueberschrift1":"08:00 Uhr - 10:30 Uhr","text1":"Fotograf: Klassen kommen einzeln zum Fotopunkt (siehe Stadionplan) für das Klassenfoto. Danach gerne Bilder von den Schülern bei den Stationen beim Sporttreiben. Danke!","ueberschrift2":"","text2":""},{"laufendeNummer":"77","nachname":"Wöschler","vorname":"Max","kuerzel":"WÖS","ueberschrift1":"Stationsleitung Seilspringen A B C","text1":"Aufbau ab 07:10 Uhr im Stadion. Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial. 08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt). Danke für deinen Einsatz. Abbau übernehmen MSS-Schüler, die Vormittag frei haben.","ueberschrift2":"","text2":""},{"laufendeNummer":"78","nachname":"Zaum","vorname":"Andrea","kuerzel":"ZAM","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 8b: Übernahme von KGU um 10:00 Uhr am Tribünenplatz der Klasse 8b. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"79","nachname":"Zäuner","vorname":"Brigitte","kuerzel":"ZAE","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 10a: Übernahme von ENG um 10:00 Uhr bei Standweitsprung C. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""},{"laufendeNummer":"80","nachname":"Zimmer","vorname":"Carmen","kuerzel":"ZIC","ueberschrift1":"","text1":"Wir freuen uns, wenn du wieder bei uns bist. 🍀 Alles Gute und bis bald!","ueberschrift2":"","text2":""},{"laufendeNummer":"81","nachname":"Zimmermann","vorname":"Jürgen","kuerzel":"ZIM","ueberschrift1":"10:00 Uhr - 12:20 Uhr","text1":"Riegeführung Klasse 10c: Übernahme von TRD um 10:00 Uhr bei Hochsprung. Alle Infos unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend. Danke für deine Unterstützung! Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.","ueberschrift2":"","text2":""}];
+
+const riegefuehrerHinweis = "Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.";
+const stationswechselHinweis = "Dieses Mal habt ihr ein großes Stationsteam. Damit der Klassenwechsel im 30-Minuten-Takt reibungslos funktioniert, soll ein Teil eures Teams die neu ankommenden Gruppen empfangen und kurz erklären, worauf an der Station zu achten ist. Anschließend geht es gemeinsam zur Station und direkt los.";
+
+const heid = teachers.find(person => person.kuerzel === "HEI");
+heid.ueberschrift1 = "07:40 Uhr - 09:00 Uhr";
+heid.text1 = "Riegeführung Klasse 9b: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 9b um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei der Turnierleitung die Riegemappe abholen und die Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 09:00 Uhr an SCÖ. Danke für deine Unterstützung!";
+
+const herrmann = teachers.find(person => person.kuerzel === "HEH");
+herrmann.text1 = "Riegeführung Klasse 9b: Übernahme von SCÖ um 10:00 Uhr am Tribünenplatz der Klasse 9b. Alle Infos findest du unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler zum Tribünenplatz für die Siegerehrung bringen. Danke für deine Unterstützung!";
+
+const schoen = teachers.find(person => person.kuerzel === "SCÖ");
+schoen.text2 = "Riegeführung Klasse 9b: Übernahme von HEI um 09:00 Uhr am Tribünenplatz der Klasse 9b. Übergabe um 10:00 Uhr am Tribünenplatz der Klasse 9b an HEH.";
+
+const simsek = teachers.find(person => person.kuerzel === "SIM");
+simsek.ueberschrift1 = "07:40 Uhr - 10:00 Uhr";
+simsek.text1 = "Riegeführung Klasse 6c: Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse 6c um 07:40 Uhr - siehe Infomaterial! Auf dem Weg zum Treffpunkt bei der Turnierleitung die Riegemappe abholen und die Anwesenheit kontrollieren. Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial. Übergabe um 10:00 Uhr am Tribünenplatz der Klasse 6c an FIL. Danke für deine Unterstützung!";
+
+const fischer = teachers.find(person => person.kuerzel === "FIL");
+fischer.ueberschrift1 = "10:00 Uhr - 12:20 Uhr";
+fischer.text1 = "Riegeführung Klasse 6c: Übernahme von SIM um 10:00 Uhr am Tribünenplatz der Klasse 6c. Alle Infos findest du unten bei \"Infomaterial\". Um 12:15 Uhr die Schüler zum Tribünenplatz für die Siegerehrung bringen. Danke für deine Unterstützung!";
+
+const finkRoedel = teachers.find(person => person.kuerzel === "FIN");
+finkRoedel.text1 = "Da du an dem Tag noch im Nachmittagsunterricht eingeteilt bist, bist du erst um 09:00 Uhr als Stationsleitung an der Station eingetragen. SEN wird deine Station mit aufbauen. Dann bis 12:15 Uhr Stationenbetrieb mit Team-MMS.\n\nHinweis: Dieses Mal habt ihr ein großes Stationsteam. Damit der Klassenwechsel im 30-Minuten-Takt reibungslos funktioniert, soll ein Teil eures Teams die neu ankommenden Gruppen empfangen und kurz erklären, worauf an der Station zu achten ist. Anschließend geht es gemeinsam zur Station und direkt los.";
+
+teachers.forEach(person => {
+  person.text1 = person.text1
+    .replace(
+      /Treffpunkt mit den Schülern im Stadion am festgeschriebenen Tribünenplatz der Klasse ([^ ]+) um 07:40 Uhr - siehe Infomaterial!/g,
+      "Treffpunkt mit der Klasse $1 um 07:40 Uhr an ihrem Tribünenplatz (siehe Infomaterial)."
+    )
+    .replace(
+      "Auf dem Weg zum Treffpunkt bei Turnierleitung Riegemappe abholen und Anwesenheit kontrollieren.",
+      "Auf dem Weg dorthin Riegemappe bei der Turnierleitung abholen und Anwesenheit prüfen."
+    )
+    .replace(
+      "Auf dem Weg zum Treffpunkt bei der Turnierleitung die Riegemappe abholen und die Anwesenheit kontrollieren.",
+      "Auf dem Weg dorthin Riegemappe bei der Turnierleitung abholen und Anwesenheit prüfen."
+    )
+    .replace(
+      "Nach der Begrüßung durch die Schulleitung und dem Start des Tages führst du die Klasse von Station zu Station. Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial.",
+      "Nach der Begrüßung durch die Schulleitung führst du die Klasse mit deinem Riegeteam von Station zu Station. Im Infomaterial unten findest du alle Details dazu."
+    )
+    .replaceAll(
+      "Den Ablaufplan bekommst du vorher in Papierform, du findest aber auch alles bereits im Infomaterial.",
+      "Den Ablaufplan findest du unten im Infomaterial."
+    )
+    .replaceAll(
+      "Um 12:15 Uhr die Schüler noch zu ihrem Tribünenplatz bringen für die Siegerehrung und Feierabend.",
+      "Um 12:15 Uhr die Schüler zum Tribünenplatz für die Siegerehrung bringen."
+    )
+    .replaceAll(
+      "Aufbauplan bekommt ihr vorab in Papierform, gibt es aber auch bereits unter Infomaterial.",
+      "Den Aufbauplan gibt es unten beim Infomaterial."
+    )
+    .replaceAll(
+      "08:15 - 12:15 Stationenbetrieb mit Team-MMS. (Schülerliste an deiner Station folgt).",
+      "08:15 - 12:15 Stationenbetrieb mit Team-MMS. Unter Teams könnt ihr sehen, welche Schüler bei euch an der Station sind."
+    );
+
+  person.text1 = person.text1.replace(riegefuehrerHinweis, "").trim();
+  person.text2 = person.text2.replace(riegefuehrerHinweis, "").trim();
+
+  if(person.ueberschrift1.startsWith("Stationsleitung") && person.text1.includes("Aufbau ab 07:10 Uhr")){
+    person.text1 += "\n\n" + stationswechselHinweis;
+  }
+});
+
+teachers.forEach(person => {
+  person.text1 = person.text1.replace(
+    /Treffpunkt mit der Klasse (5[a-d]) um 07:40 Uhr an ihrem Tribünenplatz \(siehe Infomaterial\)\./g,
+    "Treffpunkt mit der Klasse $1 um 07:40 Uhr in ihrem Klassensaal."
+  );
+
+  if (/Riegeführung Klasse 5[a-d]:/.test(person.text1) && /^07:40 Uhr/.test(person.ueberschrift1)) {
+    person.text1 = person.text1.replace(
+      "Auf dem Weg dorthin Riegemappe bei der Turnierleitung abholen und Anwesenheit prüfen.",
+      "Für euch liegen die Riegemappen ab Freitag im Teamraum. Auf dem beiliegenden Zettel bitte die Anwesenheit notieren."
+    );
+  }
+});
+
+const senn = teachers.find(person => person.kuerzel === "SEN");
+senn.text1 = "Aufbau ab 07:10 Uhr im Stadion. Den Aufbauplan findest du bereits unter Infomaterial. Da FIN noch im Nachmittagsbereich eingetragen ist, kommt sie erst um 09:00 Uhr zur Station der Mädchen. Wir bauen daher gemeinsam auch ihre Station bereits um 07:10 Uhr auf.\n\n08:15 Uhr - 12:15 Uhr: Stationenbetrieb mit Team-MMS. Danke für deinen Einsatz. Den Abbau übernehmen MSS-Schüler, die am Vormittag frei haben.\n\nHinweis: Dieses Mal habt ihr ein großes Stationsteam. Damit der Klassenwechsel im 30-Minuten-Takt reibungslos funktioniert, soll ein Teil eures Teams die neu ankommenden Gruppen empfangen und kurz erklären, worauf an der Station zu achten ist. Anschließend geht es gemeinsam zur Station und direkt los.";
+
+const teacherInfos = Object.fromEntries(
+  teachers.map(person => [
+    person.kuerzel,
+    [person.ueberschrift1, person.text1, person.ueberschrift2, person.text2].filter(Boolean)
+  ])
+);
+
+function formatStudentDisplay(student){
+  const nachname = (student.nachname || "").trim();
+  const vorname = (student.vorname || "").trim();
+  const kurz = nachname ? nachname.substring(0,2) + "." : "";
+  return (kurz + " " + vorname).trim();
+}
+
+const students = window.STUDENT_DATA || [];
+
+const sanitaeterInfo = "Liebe Sanitäter, ihr habt dieses Jahr eine besondere Aufgabe. Ihr (Anna Resed, Dorot Eich, Lina Phili, Luzie Burkh, Nikol Vesov, Pauli Wagne und Wassi Azizi) kümmert euch um die Wehwehchen der Sportler während des Tages. Wir stellen euch einen Tisch und eine Bank. Für das medizinische Material wendet euch bitte an Frau Feit. Auf dem Stadionplan seht ihr, wo sich die Sanitäterstation befindet. DANKE!";
+
+students.forEach(student => {
+  const fullName = student.vorname + " " + student.nachname;
+  if(student.aufgabe === "Sanitäter" || fullName === "Nikol Vesov" || fullName === "Pauli Wagne"){
+    student.zeit = "08:00 - 12:30";
+    student.aufgabe = "Sanitäter";
+    student.info = sanitaeterInfo;
+  }
+});
+
+students.push({
+  nachname: "Azizi",
+  vorname: "Wassi",
+  zeit: "08:00 - 12:30",
+  aufgabe: "Sanitäter",
+  info: sanitaeterInfo,
+  passwortfrei: true
+});
+
+students.forEach(student => {
+  student.info = String(student.info || "").replace(
+    "Im Infomaterial findet ihr den genauen Platz!",
+    "Im Infomaterial unter dem Punkt \"Tribüne\" findet ihr den genauen Platz. Dort findet ihr auch die Zeitpläne eurer Klassen."
+  );
+
+  const riegeKlasse5 = String(student.aufgabe || "").match(/^Riegeführung Klasse (5[a-d]):/);
+  if (riegeKlasse5) {
+    const klasse = riegeKlasse5[1];
+    student.info = "Die Klasse " + klasse + " trifft sich um 07:40 Uhr zunächst mit ihrer Lehrkraft im Klassensaal. "
+      + "Ihr als MSS-Riegeteam geht direkt zum festgelegten Tribünenplatz der Klasse " + klasse + " und nehmt die Klasse dort in Empfang. "
+      + "Den genauen Tribünenplatz und den Zeitplan findet ihr im Infomaterial unter dem Punkt \"Tribüne\". "
+      + "Nach der Begrüßung durch die Schulleitung begleitet ihr die Klasse von Station zu Station. Danke für euren Einsatz.";
+  }
+});
+
+students.sort((a,b) =>
+  a.nachname.localeCompare(b.nachname,"de",{sensitivity:"base"}) ||
+  a.vorname.localeCompare(b.vorname,"de",{sensitivity:"base"})
+);
+
+let lastMode = "teacher";
+
+const teacherSelect = document.getElementById("teacherSelect");
+const studentSelect = document.getElementById("studentSelect");
+
+[...teachers]
+  .map((person, index) => ({ person, index }))
+  .sort((a, b) => a.person.kuerzel.localeCompare(b.person.kuerzel, "de"))
+  .forEach(({ person, index }) => {
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = person.kuerzel;
+    teacherSelect.appendChild(option);
+  });
+
+
+function getStudentDropdownName(student){
+  const nachname = (student.nachname || "").trim();
+  const vorname = (student.vorname || "").trim();
+  return (vorname.slice(0, 5) + " " + nachname.slice(0, 5)).trim();
+}
+
+students.forEach((student, index) => {
+  const option = document.createElement("option");
+  option.value = index;
+  option.textContent = getStudentDropdownName(student);
+  studentSelect.appendChild(option);
+});
+
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(screen => screen.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function showStart(){
+  teacherSelect.value = "";
+  studentSelect.value = "";
+  showScreen("startScreen");
+}
+
+
+let teamsReturnMode = "start";
+let currentTeams = [];
+
+function showTeamMenu(){
+  buildTeamMenu();
+  showScreen("teamScreen");
+}
+
+function showReleaseNotice(){
+  document.getElementById("releaseNoticeDialog").showModal();
+}
+
+function closeReleaseNotice(){
+  document.getElementById("releaseNoticeDialog").close();
+}
+
+function openTeams(){
+  teamsReturnMode = document.getElementById("infoMaterialScreen").classList.contains("active") ? "info" : "start";
+  showTeamMenu();
+}
+
+function closeTeamsPage(){
+  if(teamsReturnMode === "info"){
+    showInfoMaterial();
+  }else{
+    showStart();
+  }
+}
+
+function formatMssTeamName(student){
+  const vorname = (student.vorname || "").trim();
+  const nachname = (student.nachname || "").trim();
+  return (vorname.slice(0,5) + " " + nachname.slice(0,5)).trim();
+}
+
+function teacherBelongsToRiege(kuerzel, klasse){
+  const infos = teacherInfos[kuerzel] || [];
+  return infos.some(info => {
+    const text = String(info).replace(/<[^>]*>/g, " ");
+    return text.includes("Klasse " + klasse) || text.includes("Riegeführung " + klasse);
+  });
+}
+
+function studentBelongsToRiege(student, klasse){
+  return String(student.aufgabe || "").startsWith("Riegeführung Klasse " + klasse + ":");
+}
+
+function uniqueTeamCodes(codes){
+  return [...new Set(codes)].sort((a,b) => a.localeCompare(b,"de"));
+}
+
+function teacherAssignmentText(person){
+  return [person.ueberschrift1, person.text1, person.ueberschrift2, person.text2].join(" ");
+}
+
+function teachersMatching(test){
+  return uniqueTeamCodes(teachers.filter(person => test(teacherAssignmentText(person), person)).map(person => person.kuerzel));
+}
+
+function studentsMatching(test){
+  return students.filter(test).sort((a,b) =>
+    a.nachname.localeCompare(b.nachname,"de",{sensitivity:"base"}) ||
+    a.vorname.localeCompare(b.vorname,"de",{sensitivity:"base"})
+  );
+}
+
+function createTeam(id, label, teacherCodes, teamStudents, images = []){
+  return {id, label, teacherCodes: uniqueTeamCodes(teacherCodes), students: teamStudents, images};
+}
+
+function buildAllTeams(){
+  const groups = [];
+
+  const stationSpecs = [
+    ["station-sprint", "Station Sprint", ["Sprint"], ["Sprint.jpg"]],
+    ["station-kugel", "Station Kugelstoßen", ["Kugelstoßen"], ["Kugelstoßen.jpg"]],
+    ["station-hoch", "Station Hochsprung", ["Hochsprung"], ["Hochsprung.jpg"]],
+    ["station-weit", "Station Weitsprung A-B", ["Weitsprung A", "Weitsprung B"], ["Weitsprung A.jpg", "Weitsprung B.jpg"]],
+    ["station-wurf", "Station Weitwurf A-B", ["Weitwurf A", "Weitwurf B"], ["Weitwurf.jpg"]],
+    ["station-stand", "Station Standweitsprung A-C", ["Standweitsprung A", "Standweitsprung B", "Standweitsprung C"], ["Standweitsprung.jpg"]],
+    ["station-seil", "Station Seilspringen A-C", ["Seilspringen A", "Seilspringen B", "Seilspringen C"], ["Seilspringen.jpg"]]
+  ];
+  groups.push({title:"Stationenteams", teams:stationSpecs.map(([id,label,tasks,images]) =>
+    createTeam(
+      id,
+      label,
+      tasks.flatMap(task => getStationTeacherCodes({aufgabe:task})),
+      studentsMatching(student => tasks.includes(student.aufgabe)),
+      images
+    )
+  )});
+
+  const riegeTeams = [];
+  ["5","6","7","8","9","10"].forEach(level => {
+    ["a","b","c","d"].forEach(letter => {
+      const klasse = level + letter;
+      riegeTeams.push(createTeam(
+        "riege-" + klasse,
+        "Riegeteam " + klasse,
+        getRiegeTeacherCodes({aufgabe:"Riegeführung Klasse " + klasse + ":"}),
+        studentsMatching(student => studentBelongsToRiege(student, klasse)),
+        ["Riege " + klasse + ".jpg", "Stadionplan.jpg", "2.jpg"]
+      ));
+    });
+  });
+  groups.push({title:"Riegeteams", teams:riegeTeams});
+
+  groups.push({title:"Aufsichten", teams:[
+    createTeam("aufsicht-eingang", "Aufsicht Ein-/Ausgang", teachersMatching(text => text.includes("Aufsicht Stadion-Ein-/Ausgang")), [], ["Stadionplan.jpg"]),
+    createTeam("aufsicht-tribuene", "Aufsicht Tribüne", teachersMatching(text => text.includes("Aufsicht Tribüne")), [], ["1.jpg", "2.jpg", "3.jpg"]),
+    createTeam("aufsicht-ziel", "Aufsicht Zielbereich Sprint", teachersMatching(text => text.includes("Aufsicht Zielbereich Sprint")), studentsMatching(student => student.aufgabe === "Aufsicht Zielbereich Sprint"), ["Sprint.jpg", "Stadionplan.jpg"]),
+    createTeam("aufsicht-bus", "Aufsicht Busstraße", teachersMatching(text => text.includes("Aufsicht Busstraße")), [], ["Stadionplan.jpg"])
+  ]});
+
+  groups.push({title:"Weitere Teams", teams:[
+    createTeam("springer", "Team Springer", teachersMatching(text => /\bSpringer\b/.test(text)), [], ["Stadionplan.jpg"]),
+    createTeam("ersatzriege", "Ersatzriegeführung", [], studentsMatching(student => student.aufgabe.startsWith("Ersatzriegeführung:")), ["allgemein.jpg", "Stadionplan.jpg"]),
+    createTeam("sanitaeter", "Team Sanitäter", teachersMatching(text => /Sanitäter/i.test(text)), studentsMatching(student => student.aufgabe === "Sanitäter"), ["Stadionplan.jpg"]),
+    createTeam("essen", "Team Essensverkauf", teachersMatching(text => /Eisverkauf|Essensverkauf|Verpflegung/i.test(text)), studentsMatching(student => student.aufgabe === "Essensverkauf"), ["Stadionplan.jpg"]),
+    createTeam("abbau", "Team Abbau & Aufräumen", [], studentsMatching(student => student.aufgabe === "Abbau + Aufräumen, Treffpunkt Turnierleitung"), ["Stadionplan.jpg"]),
+    createTeam("foto", "Team Klassenfoto", teachersMatching(text => /Fotograf|Klassenfoto/i.test(text)), [], ["Stadionplan.jpg"])
+  ]});
+
+  return groups;
+}
+
+function buildTeamMenu(){
+  const container = document.getElementById("teamButtons");
+  container.innerHTML = "";
+  const groups = buildAllTeams();
+  currentTeams = groups.flatMap(group => group.teams).filter(team => team.teacherCodes.length || team.students.length);
+
+  groups.forEach(group => {
+    const visibleTeams = group.teams.filter(team => team.teacherCodes.length || team.students.length);
+    if(!visibleTeams.length) return;
+    const section = document.createElement("section");
+    section.className = "team-section";
+    const heading = document.createElement("h2");
+    heading.className = "team-section-title";
+    heading.textContent = group.title;
+    section.appendChild(heading);
+    const grid = document.createElement("div");
+    grid.className = "info-grid";
+    visibleTeams.forEach(team => {
+      const button = document.createElement("button");
+      button.className = "info-menu-btn";
+      button.textContent = team.label;
+      button.addEventListener("click", () => showTeamPopup(team.id));
+      grid.appendChild(button);
+    });
+    section.appendChild(grid);
+    container.appendChild(section);
+  });
+}
+
+function showTeamPopup(teamId){
+  const team = currentTeams.find(item => item.id === teamId);
+  if(!team) return;
+  document.querySelector("#teamDialog .modal-head span").textContent = team.label;
+  let html = "";
+  if(team.teacherCodes.length){
+    html += "<section class='team-member-section'><h3 class='team-member-heading'>Lehrkräfte</h3><div class='team-member-list'>";
+    html += team.teacherCodes.map(code => "<div class='team-member'>" + escapeTeacherText(code) + "</div>").join("");
+    html += "</div></section>";
+  }
+  if(team.students.length){
+    html += "<section class='team-member-section'><h3 class='team-member-heading'>Schülerinnen und Schüler</h3><div class='team-member-list'>";
+    html += team.students.map(student => "<div class='team-member'>" + escapeTeacherText(formatMssTeamName(student)) + "</div>").join("");
+    html += "</div></section>";
+  }
+  if(team.images.length){
+    html += "<section class='team-member-section'><h3 class='team-member-heading'>Materialien</h3><div class='team-material-list'>";
+    html += team.images.map(file => "<img src='" + encodeURI(file) + "' alt='Material für " + escapeTeacherText(team.label) + "'>").join("");
+    html += "</div></section>";
+  }
+  document.querySelector("#teamDialog .modal-body").innerHTML = html || "<div class='team-empty'>Keine Personen eingetragen.</div>";
+  document.getElementById("teamDialog").showModal();
+}
+
+function closeTeamPopup(){
+  document.getElementById("teamDialog").close();
+}
+
+function showTeacherMenu(){
+  lastMode = "teacher";
+  teacherSelect.value = "";
+  showScreen("teacherScreen");
+}
+
+function showStudentMenu(){
+  lastMode = "student";
+  studentSelect.value = "";
+  showScreen("studentScreen");
+}
+
+function goBackFromHello(){
+  if(lastMode === "student") {
+    showStudentMenu();
+  } else {
+    showTeacherMenu();
+  }
+}
+
+function formatInfoLine(text){
+  text = text
+    .replaceAll("[station]", "<span class='station-tag'>")
+    .replaceAll("[/station]", "</span>");
+
+  const range = text.match(/^((?:[0-9]{1,2}:[0-9]{2}\s*(?:Uhr)?|[0-9]{1,2}\s*Uhr)\s*-\s*(?:[0-9]{1,2}:[0-9]{2}\s*(?:Uhr)?|[0-9]{1,2}\s*Uhr))[:.]?\s*(.*)$/);
+  if(range){
+    return "<span class='time-block'>" + range[1] + "</span><span class='task-detail'>" + range[2] + "</span>";
+  }
+
+  const single = text.match(/^([0-9]{1,2}:[0-9]{2}\s*Uhr|[0-9]{1,2}\s*Uhr)[:.]\s*(.*)$/);
+  if(single){
+    return "<span class='time-block'>" + single[1] + "</span><span class='task-detail'>" + single[2] + "</span>";
+  }
+
+  return text;
+}
+
+let currentTeacherIndex = null;
+
+
+const riegefuehrerLehrer = [
+"DUD","EDI","FIL","FRE","HAJ","HER","SCS","HIR",
+"LAG","LÜC","MEY","OBL","PIE","SCH","SOL","STB",
+"SBG","TRD","ULM","WES","ZAM","PRZ","SCD","SIE",
+"SIM","STÜ","URG","VAL","VEN","ENG","LIC","FAL",
+"HEI","KOB","LUP","RUF","WIL","WIE","ZAE",
+"BOJ"
+];
+
+function escapeTeacherText(value){
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function formatTeacherLines(value){
+  return escapeTeacherText(value).replaceAll("\n", "<br>");
+}
+
+function formatTeacherText(text){
+  const notice = "Hinweis: Anweisungen an die Klasse sollen primär durch die MSS-Riegeführer geschehen. Falls das nicht klappt, müsst ihr das übernehmen. Bei groben Verstößen von Schülern eurer Klasse könnt ihr diese zur Turnierleitung schicken.";
+  const value = String(text || "");
+  const position = value.indexOf(notice);
+
+  if(position === -1){
+    return formatTeacherLines(value);
+  }
+
+  const mainText = value.slice(0, position).trim();
+  return formatTeacherLines(mainText)
+    + "<span class='riege-hinweis'>"
+    + formatTeacherLines(notice)
+    + "</span>";
+}
+
+function renderTeacherBlock(heading, text){
+  if(!heading && !text) return "";
+  let block = "<span class='info-line'>";
+  if(heading){
+    block += "<strong>" + escapeTeacherText(heading) + "</strong>";
+    if(text) block += "<br>";
+  }
+  if(text) block += formatTeacherText(text);
+  return block + "</span>";
+}
+
+function renderTeacher(person){
+  let html = "Hallo " + escapeTeacherText(person.vorname) + "!";
+  html += "<span class='info-list'>";
+  html += renderTeacherBlock(person.ueberschrift1, person.text1);
+  html += renderTeacherBlock(person.ueberschrift2, person.text2);
+  html += "</span>";
+  html += "<br><button class='info-material-btn' onclick='showInfoMaterial()'>Infomaterial</button>";
+  document.getElementById("normalHello").innerHTML = html;
+  showScreen("helloScreen");
+}
+
+function selectTeacher(){
+  const index = teacherSelect.value;
+  if(index === "") return;
+  lastMode = "teacher";
+  currentTeacherIndex = index;
+  renderTeacher(teachers[index]);
+}
+
+
+function backToCurrentTeacher(){
+  if(currentTeacherIndex !== null){
+    renderTeacher(teachers[currentTeacherIndex]);
+  }else{
+    showTeacherMenu();
+  }
+}
+
+function backFromInfoMaterial(){
+  if(lastMode === "student" && currentStudentIndex !== null){
+    renderStudent();
+    return;
+  }
+  backToCurrentTeacher();
+}
+
+function showInfoMaterial(){
+  showScreen("infoMaterialScreen");
+}
+
+let lastSubInfoTitle = "";
+let lastSubInfoLabels = [];
+let lastSubInfoMode = "";
+
+function setSubInfo(title, labels, mode = ""){
+  lastSubInfoTitle = title;
+  lastSubInfoLabels = labels;
+  lastSubInfoMode = mode;
+
+  document.getElementById("subInfoTitle").textContent = title;
+  const box = document.getElementById("subInfoButtons");
+  box.innerHTML = "";
+
+  labels.forEach(label => {
+    const btn = document.createElement("button");
+    btn.className = "info-menu-btn";
+    btn.textContent = label;
+
+    if(mode === "riege"){
+      btn.addEventListener("click", function(){
+        showRiegeImage(label);
+      });
+    }
+
+    box.appendChild(btn);
+  });
+
+  showScreen("subInfoScreen");
+}
+
+function showSimpleInfoPage(title){
+  if(title === "Stadionplan"){
+    lastSubInfoMode = "infomaterial";
+    showScreen("stadionplanScreen");
+    return;
+  }
+
+  if(title === "Ablaufplan allgemein"){
+    lastSubInfoMode = "infomaterial";
+
+    const img = document.getElementById("infoImage");
+    img.alt = "Allgemeiner Ablaufplan";
+    img.src = "allgemein.jpg";
+
+    const stadion = document.getElementById("stadionplanExtra");
+    if(stadion) stadion.style.display = "none";
+
+    showScreen("imageViewerScreen");
+    return;
+  }
+
+  if(title === "Tribüne"){
+    document.getElementById("subInfoTitle").textContent = "Tribüne";
+    const box = document.getElementById("subInfoButtons");
+    box.innerHTML = "";
+    box.style.display = "block";
+    box.style.width = "100%";
+
+    for(let i = 1; i <= 3; i++){
+      const img = document.createElement("img");
+      img.src = i + ".jpg";
+      img.alt = "Tribüne " + i;
+      img.style.width = "100%";
+      img.style.height = "auto";
+      img.style.display = "block";
+      img.style.marginBottom = "24px";
+      img.style.borderRadius = "22px";
+      img.style.boxShadow = "0 18px 45px rgba(0,0,0,.25)";
+      img.style.background = "white";
+      box.appendChild(img);
+    }
+
+    showScreen("subInfoScreen");
+    return;
+  }
+
+  setSubInfo(title, []);
+}
+
+function showRiegeplaene(){
+  const classes = [];
+  ["5","6","7","8","9","10"].forEach(level => {
+    ["a","b","c","d"].forEach(letter => classes.push(level + letter));
+  });
+  setSubInfo("Riegepläne", classes, "riege");
+}
+
+function showRiegeImage(klasse){
+  const img = document.getElementById("infoImage");
+  img.alt = "Riege " + klasse;
+  img.src = "Riege " + klasse + ".jpg";
+
+  const stadion = document.getElementById("stadionplanExtra");
+  if(stadion) stadion.style.display = "block";
+
+  showScreen("imageViewerScreen");
+}
+
+function showPreviousInfoSubPage(){
+  if(lastSubInfoMode === "aufbau"){
+    showAufbauplaene();
+    return;
+  }
+
+  if(lastSubInfoMode === "infomaterial"){
+    showInfoMaterial();
+    return;
+  }
+
+  setSubInfo(lastSubInfoTitle, lastSubInfoLabels, lastSubInfoMode);
+}
+
+function showAufbauplaene(){
+  const plaene = [
+    { label: "Weitsprung A", file: "Weitsprung A.jpg" },
+    { label: "Weitsprung B", file: "Weitsprung B.jpg" },
+    { label: "Sprint", file: "Sprint.jpg" },
+    { label: "Weitwurf A + B", file: "Weitwurf.jpg" },
+    { label: "Hochsprung", file: "Hochsprung.jpg" },
+    { label: "Kugelstoßen", file: "Kugelstoßen.jpg" },
+    { label: "Seilsprung A - C", file: "Seilspringen.jpg" },
+    { label: "Standweitsprung A - C", file: "Standweitsprung.jpg" }
+  ];
+
+  lastSubInfoTitle = "Aufbauplan der Stationen";
+  lastSubInfoLabels = plaene.map(p => p.label);
+  lastSubInfoMode = "aufbau";
+
+  document.getElementById("subInfoTitle").textContent = "Aufbauplan der Stationen";
+  const box = document.getElementById("subInfoButtons");
+  box.innerHTML = "";
+  box.style.display = "";
+
+  plaene.forEach(plan => {
+    const btn = document.createElement("button");
+    btn.className = "info-menu-btn";
+    btn.textContent = plan.label;
+    btn.addEventListener("click", function(){
+      showAufbauImage(plan.label, plan.file);
+    });
+    box.appendChild(btn);
+  });
+
+  showScreen("subInfoScreen");
+}
+
+function showAufbauImage(label, file){
+  const img = document.getElementById("infoImage");
+  img.alt = label;
+  img.src = file;
+
+  const stadion = document.getElementById("stadionplanExtra");
+  if(stadion) stadion.style.display = "none";
+
+  showScreen("imageViewerScreen");
+}
+
+
+function getRiegeTeacherCodes(student){
+  const match = String(student.aufgabe || "").match(/^Riegeführung Klasse\s+([^:]+)/i);
+  if(!match) return [];
+  const klasse = match[1].trim();
+  const assignmentStart = "Riegeführung Klasse " + klasse;
+  return teachers
+    .filter(person => [person.text1, person.text2].some(text => String(text || "").includes(assignmentStart)))
+    .map(person => person.kuerzel);
+}
+
+function renderStudentTask(student){
+  const codes = getRiegeTeacherCodes(student);
+  let html = escapeTeacherText(student.aufgabe);
+  if(codes.length){
+    const teacherText = codes.length === 1 ? "der zuständigen Lehrkraft" : "den zuständigen Lehrkräften";
+    const supervisionText = codes.length === 1 ? "Die Lehrkraft unterstützt nur mit der Aufsicht, die Anweisungen kommen von euch!" : "Die Lehrkräfte unterstützen nur mit der Aufsicht, die Anweisungen kommen von euch!";
+    html += "<span class='student-riege-note'>Ihr begleitet die Klasse gemeinsam mit " + teacherText + " (" + escapeTeacherText(codes.join(", ")) + "). Nach der Begrüßung durch die Schulleitung führt ihr die Klasse von Station zu Station. Dabei übernehmt ihr als MSS-Riegeteam die Leitung. " + supervisionText + " Wenn sich ein Schüler trotz mehrfacher Ermahnung weiterhin nicht an die Regeln hält, begleitet ihr ihn zur Turnierleitung.</span>";
+  }
+  return html;
+}
+
+const fixedStudentStations = new Set([
+  "Sprint", "Kugelstoßen", "Hochsprung",
+  "Weitsprung A", "Weitsprung B", "Weitwurf A", "Weitwurf B",
+  "Standweitsprung A", "Standweitsprung B", "Standweitsprung C",
+  "Seilspringen A", "Seilspringen B", "Seilspringen C"
+]);
+
+function isFixedStationStudent(student){
+  return fixedStudentStations.has(String(student.aufgabe || "").trim());
+}
+
+function getStationTeacherCodes(student){
+  const station = String(student.aufgabe || "").trim();
+  if(!fixedStudentStations.has(station)) return [];
+
+  return teachers.filter(person => {
+    const assignment = [person.ueberschrift1, person.text1, person.ueberschrift2, person.text2].join(" ");
+    if(assignment.includes("Unterstützung bei Station " + station)) return true;
+    if(station === "Hochsprung" && assignment.includes("beim Hochsprung unterstützen")) return true;
+    if(station === "Sprint" && assignment.includes("Stationsleitung Sprint")) return true;
+    if(station === "Kugelstoßen" && assignment.includes("Stationsleitung Kugelstoßen")) return true;
+    if(station.startsWith("Standweitsprung ") && assignment.includes("Stationsleitung Standweitsprung A B C")) return true;
+    if(station.startsWith("Seilspringen ") && assignment.includes("Stationsleitung Seilspringen A B C")) return true;
+    return assignment.includes("Stationsleitung " + station);
+  }).map(person => person.kuerzel);
+}
+
+function renderStudentInfo(student){
+  let info = String(student.info || "");
+  const codes = getStationTeacherCodes(student);
+  if(codes.length){
+    const teacherLabel = codes.length === 1
+      ? "Zuständige Lehrkraft an eurer Station: "
+      : "Zuständige Lehrkräfte an eurer Station: ";
+    info += "\n\n" + teacherLabel + codes.join(", ") + ".";
+  }
+  return formatTeacherLines(info);
+}
+
+function renderStationAblauf(student){
+  if(!isFixedStationStudent(student)) return "";
+  return "<span class='student-detail-card'><span class='student-detail-label'>Ablauf</span><span class='student-detail-value'>Ihr seid während des Stationenbetriebs für die ordnungsgemäße Durchführung mitverantwortlich. Dazu gehören zum Beispiel das Messen von Weiten, das Stoppen von Zeiten und das Notieren der Leistungen. Die Sportlehrkraft an eurer Station erklärt euch vorab, welche Aufgaben ihr übernehmt.\n\nEin Teil eurer Stationsgruppe empfängt die neu ankommenden Klassen bereits vor der Station und gibt ihnen eine kurze Einweisung. So können die Gruppen beim Klassenwechsel direkt starten. Alle weiteren Informationen zum Ablauf erhaltet ihr bei der Stationsbesprechung um 07:40 Uhr.</span></span>";
+}
+
+function renderStudentTaskCard(student){
+  if(isFixedStationStudent(student)) return "";
+  return "<span class='student-detail-card'><span class='student-detail-label'>Deine Aufgabe</span><span class='student-detail-value'>" + renderStudentTask(student) + "</span></span>";
+}
+
+function formatStudentSchedule(student){
+  const time = String(student.zeit || "").trim();
+  const timeWithUnit = time.toLowerCase().includes("uhr") ? time : time + " Uhr";
+  const assignment = String(student.aufgabe || "").split(":")[0].trim();
+  return assignment ? timeWithUnit + " " + assignment : timeWithUnit;
+}
+
+function renderStudent(){
+  if(currentStudentIndex === null) return;
+  const student = students[currentStudentIndex];
+  const content = document.getElementById("studentContent");
+  content.innerHTML = "Hallo " + escapeTeacherText(student.vorname) + "!"
+    + "<span class='student-detail-list'>"
+    + "<span class='student-detail-card'><span class='student-detail-label'>Zeiteinteilung</span><span class='student-detail-value'>" + escapeTeacherText(formatStudentSchedule(student)) + "</span></span>"
+    + renderStudentTaskCard(student)
+    + "<span class='student-detail-card'><span class='student-detail-label'>Informationen für dich</span><span class='student-detail-value'>" + renderStudentInfo(student) + "</span></span>"
+    + renderStationAblauf(student)
+    + "</span>"
+    + "<br><button class='info-material-btn' onclick='showInfoMaterial()'>Infomaterial</button>";
+  showScreen("studentInfoScreen");
+}
+
+let currentStudentIndex = null;
+
+function selectStudent(){
+  const index = studentSelect.value;
+  if(index === "") return;
+  currentStudentIndex = Number(index);
+  if(students[currentStudentIndex].passwortfrei){
+    renderStudent();
+    return;
+  }
+  const input = document.getElementById("studentPasswordInput");
+  const error = document.getElementById("studentPasswordError");
+  input.value = "";
+  error.textContent = "";
+  const dialog = document.getElementById("studentPasswordDialog");
+  dialog.showModal();
+  requestAnimationFrame(() => input.focus());
+}
+
+function unlockCurrentStudent(){
+  const dialog = document.getElementById("studentPasswordDialog");
+  if(dialog.open) dialog.close();
+  renderStudent();
+}
+
+function decodeBase64(value){
+  return Uint8Array.from(atob(value), character => character.charCodeAt(0));
+}
+
+function encodeBase64(bytes){
+  let binary = "";
+  bytes.forEach(byte => binary += String.fromCharCode(byte));
+  return btoa(binary);
+}
+
+async function createStudentAccessHash(password, saltBase64){
+  const encoder = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(password),
+    "PBKDF2",
+    false,
+    ["deriveBits"]
+  );
+  const bits = await crypto.subtle.deriveBits(
+    {
+      name: "PBKDF2",
+      salt: decodeBase64(saltBase64),
+      iterations: 30000,
+      hash: "SHA-256"
+    },
+    keyMaterial,
+    256
+  );
+  return encodeBase64(new Uint8Array(bits));
+}
+
+async function checkStudentPassword(event){
+  event.preventDefault();
+  if(currentStudentIndex === null) return;
+  const student = students[currentStudentIndex];
+  const input = document.getElementById("studentPasswordInput");
+  const error = document.getElementById("studentPasswordError");
+  const password = input.value.trim();
+  try{
+    const candidateHash = await createStudentAccessHash(password, student.zugangscodeSalt);
+    if(candidateHash === student.zugangscodeHash){
+      unlockCurrentStudent();
+      return;
+    }
+  }catch(errorDetails){
+    console.error("Die Zugangscode-Prüfung ist fehlgeschlagen.", errorDetails);
+  }
+  error.textContent = "Das Geburtsdatum stimmt nicht. Bitte im Format TT.MM.JJJJ eingeben.";
+  input.select();
+}
+
+function closeStudentPasswordPopup(){
+  const dialog = document.getElementById("studentPasswordDialog");
+  if(dialog && dialog.open) dialog.close();
+  studentSelect.value = "";
+  currentStudentIndex = null;
+}
+
+document.addEventListener("keydown", function(event){
+  const dialog = document.getElementById("studentPasswordDialog");
+  if(dialog.open && event.key.toLowerCase() === "a"){
+    event.preventDefault();
+    unlockCurrentStudent();
+  }
+});
+
+function openInfo(text){
+  document.getElementById("infoText").textContent = text;
+  document.getElementById("infoDialog").showModal();
+}
+
+function closeInfo(){
+  document.getElementById("infoDialog").close();
+}
+
+function openMaterial(images){
+  const body = document.querySelector("#materialDialog .modal-body");
+  body.innerHTML = "<div class='material-list'>" + images.map(name =>
+    "<img src='" + name + ".jpg' alt='" + name + "' onerror=\"this.onerror=null;this.src='" + name + ".png';\">"
+  ).join("") + "</div>";
+  document.getElementById("materialDialog").showModal();
+}
+
+function closeMaterial(){
+  document.getElementById("materialDialog").close();
+}
+</script>
+</body>
+</html>
