@@ -803,7 +803,7 @@ function buildAllTeams(){
     createTeam("springer", "Team Springer", teachersMatching(text => /\bSpringer\b/.test(text)), [], ["Stadionplan.jpg"]),
     createTeam("ersatzriege", "Ersatzriegeführung", [], studentsMatching(student => student.aufgabe.startsWith("Ersatzriegeführung:")), ["allgemein.jpg", "Stadionplan.jpg"]),
     createTeam("sanitaeter", "Team Sanitäter", teachersMatching(text => /Sanitäter/i.test(text)), studentsMatching(student => student.aufgabe === "Sanitäter"), ["Stadionplan.jpg"]),
-    createTeam("essen", "Team Essensverkauf", teachersMatching(text => /Eisverkauf|Essensverkauf|Verpflegung/i.test(text)), studentsMatching(student => student.aufgabe === "Essensverkauf"), ["Stadionplan.jpg"]),
+    createTeam("essen", "Team Eisverkauf", teachersMatching(text => /Eisverkauf|Verpflegung/i.test(text)), studentsMatching(student => student.aufgabe === "Eisverkauf"), ["Stadionplan.jpg"]),
     createTeam("abbau", "Team Abbau & Aufräumen", [], studentsMatching(student => student.aufgabe === "Abbau + Aufräumen, Treffpunkt Turnierleitung"), ["Stadionplan.jpg"]),
     createTeam("foto", "Team Klassenfoto", teachersMatching(text => /Fotograf|Klassenfoto/i.test(text)), [], ["Stadionplan.jpg"])
   ]});
