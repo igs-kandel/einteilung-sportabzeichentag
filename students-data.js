@@ -31,7 +31,7 @@ window.STUDENT_DATA = [
     "vorname": "Adeba",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitsprung A",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung A zur Einführung kommen! Eure Stationsgruppe: Adeba Almah, Smill Burg, Milen Becke, Amal Shawa, Hanna Keppe, Helen Pflie.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung A zur Einführung kommen! Eure Stationsgruppe: Adeba Almah, Milen Becke, Amal Shawa, Hanna Keppe, Helen Pflie.",
     "zugangscodeSalt": "wbssRLBtAP4dfQsAnyt8ZQ==",
     "zugangscodeHash": "UDhyyGMJehkF1XeclRwrtV/7XuikRAKZi23WUfyYDJk="
   },
@@ -103,7 +103,7 @@ window.STUDENT_DATA = [
     "vorname": "Milen",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitsprung A",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung A zur Einführung kommen! Eure Stationsgruppe: Adeba Almah, Smill Burg, Milen Becke, Amal Shawa, Hanna Keppe, Helen Pflie.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung A zur Einführung kommen! Eure Stationsgruppe: Adeba Almah, Milen Becke, Amal Shawa, Hanna Keppe, Helen Pflie.",
     "zugangscodeSalt": "tTpHs4kPPS9dxFYVRS1+9g==",
     "zugangscodeHash": "wt3W0vSit1wgJgUzexjOhy7178z7nNiAPUMU07ZmT7w="
   },
@@ -193,18 +193,9 @@ window.STUDENT_DATA = [
     "vorname": "Cater",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitwurf A",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitwurf A zur Einführung kommen! Eure Stationsgruppe: Colli Przew, Cater Bujor, Lina Thies, Anouk Eger, Tessa Weile, Morit Heib.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitwurf A zur Einführung kommen! Eure Stationsgruppe: Cater Bujor, Lina Thies, Anouk Eger, Tessa Weile, Morit Heib.",
     "zugangscodeSalt": "8JWb052ywUnM32u3ipGMZQ==",
     "zugangscodeHash": "dOHMPkD5FwMLifkPNecqRX8sziIfGDXy9eyTJ2rfl1c="
-  },
-  {
-    "nachname": "Burg",
-    "vorname": "Smill",
-    "zeit": "07:40 - 12:15",
-    "aufgabe": "Weitsprung A",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung A zur Einführung kommen! Eure Stationsgruppe: Adeba Almah, Smill Burg, Milen Becke, Amal Shawa, Hanna Keppe, Helen Pflie.",
-    "zugangscodeSalt": "SGKj8WtEafDWEnPRHVUMTQ==",
-    "zugangscodeHash": "Q6Ad63He+gNAp9ZCJRxH0llkG78nB/9zOv5Pg1x9CDI="
   },
   {
     "nachname": "Burkh",
@@ -301,7 +292,7 @@ window.STUDENT_DATA = [
     "vorname": "Anouk",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitwurf A",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitwurf A zur Einführung kommen! Eure Stationsgruppe: Colli Przew, Cater Bujor, Lina Thies, Anouk Eger, Tessa Weile, Morit Heib.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitwurf A zur Einführung kommen! Eure Stationsgruppe: Cater Bujor, Lina Thies, Anouk Eger, Tessa Weile, Morit Heib.",
     "zugangscodeSalt": "Jx5nUlu9MWr9yzGC4teb7Q==",
     "zugangscodeHash": "JEWY1MyGqQXRnkIuvGrCznvX9hozF5YI+jo4eV5ikJA="
   },
@@ -553,7 +544,7 @@ window.STUDENT_DATA = [
     "vorname": "Morit",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitwurf A",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitwurf A zur Einführung kommen! Eure Stationsgruppe: Colli Przew, Cater Bujor, Lina Thies, Anouk Eger, Tessa Weile, Morit Heib.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitwurf A zur Einführung kommen! Eure Stationsgruppe: Cater Bujor, Lina Thies, Anouk Eger, Tessa Weile, Morit Heib.",
     "zugangscodeSalt": "KSIhdizry66WdYZIgYO85Q==",
     "zugangscodeHash": "NEpAVxF8xbBqmUymIhTdkMSazcjbw6nWMaTPXZFER+I="
   },
@@ -679,7 +670,7 @@ window.STUDENT_DATA = [
     "vorname": "Hanna",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitsprung A",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung A zur Einführung kommen! Eure Stationsgruppe: Adeba Almah, Smill Burg, Milen Becke, Amal Shawa, Hanna Keppe, Helen Pflie.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung A zur Einführung kommen! Eure Stationsgruppe: Adeba Almah, Milen Becke, Amal Shawa, Hanna Keppe, Helen Pflie.",
     "zugangscodeSalt": "f+ykGOstBHCA4ShSv8Vr8A==",
     "zugangscodeHash": "NkouLpxcmWB3uzTm2FFJpx4wZAqeLt4Mh2wYeIGLHs4="
   },
@@ -1120,7 +1111,7 @@ window.STUDENT_DATA = [
     "vorname": "Helen",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitsprung A",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung A zur Einführung kommen! Eure Stationsgruppe: Adeba Almah, Smill Burg, Milen Becke, Amal Shawa, Hanna Keppe, Helen Pflie.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung A zur Einführung kommen! Eure Stationsgruppe: Adeba Almah, Milen Becke, Amal Shawa, Hanna Keppe, Helen Pflie.",
     "zugangscodeSalt": "b+d6J/pmJXr2wOKlLHWfCw==",
     "zugangscodeHash": "/SLfVxkHBCK42xDYDty28CvLvm/jBkKL9AlHDKYKylI="
   },
@@ -1150,15 +1141,6 @@ window.STUDENT_DATA = [
     "info": "Treffpunkt 07:40 Uhr im Stadion bei der Turnierleitung. Falls eine Riegeführung ausfällt, übernehmt ihr gemeinsam eine Gruppe.",
     "zugangscodeSalt": "FTC3PC/pQRBx653O2r+xdg==",
     "zugangscodeHash": "2UNNiQbHEiCFD6H+Fl7HadPgPnfW3vwA5x/ycRE7mQ0="
-  },
-  {
-    "nachname": "Przew",
-    "vorname": "Colli",
-    "zeit": "07:40 - 12:15",
-    "aufgabe": "Weitwurf A",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitwurf A zur Einführung kommen! Eure Stationsgruppe: Colli Przew, Cater Bujor, Lina Thies, Anouk Eger, Tessa Weile, Morit Heib.",
-    "zugangscodeSalt": "/fVelMY+99oIcm0GpqqJsQ==",
-    "zugangscodeHash": "xILTo34t1g9VI6ZnUlpl3jbUoUsLi61QUORfzJGvgfY="
   },
   {
     "nachname": "Qerim",
@@ -1381,7 +1363,7 @@ window.STUDENT_DATA = [
     "vorname": "Amal",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitsprung A",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung A zur Einführung kommen! Eure Stationsgruppe: Adeba Almah, Smill Burg, Milen Becke, Amal Shawa, Hanna Keppe, Helen Pflie.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung A zur Einführung kommen! Eure Stationsgruppe: Adeba Almah, Milen Becke, Amal Shawa, Hanna Keppe, Helen Pflie.",
     "zugangscodeSalt": "6+AGvfvNRQZ+MwM0uIAHmw==",
     "zugangscodeHash": "f5EJ/+RiEZV0r3S/R9t2dCGNv5hbcm6jEGAOKiQMxN4="
   },
@@ -1507,7 +1489,7 @@ window.STUDENT_DATA = [
     "vorname": "Lina",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitwurf A",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitwurf A zur Einführung kommen! Eure Stationsgruppe: Colli Przew, Cater Bujor, Lina Thies, Anouk Eger, Tessa Weile, Morit Heib.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitwurf A zur Einführung kommen! Eure Stationsgruppe: Cater Bujor, Lina Thies, Anouk Eger, Tessa Weile, Morit Heib.",
     "zugangscodeSalt": "8O8H1efkkfFIB2+KCCTopQ==",
     "zugangscodeHash": "J2n8iXzxB2jZJfVcFqxi1MWYAR58hMZHGyHqqVI/uvw="
   },
@@ -1624,7 +1606,7 @@ window.STUDENT_DATA = [
     "vorname": "Tessa",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitwurf A",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitwurf A zur Einführung kommen! Eure Stationsgruppe: Colli Przew, Cater Bujor, Lina Thies, Anouk Eger, Tessa Weile, Morit Heib.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitwurf A zur Einführung kommen! Eure Stationsgruppe: Cater Bujor, Lina Thies, Anouk Eger, Tessa Weile, Morit Heib.",
     "zugangscodeSalt": "PY3Tz74au+KQb/sb2QFoag==",
     "zugangscodeHash": "QXd3Tg5z1k+IRn8OQ44S4/y5Xu8bbjByRKGSPbiSbsw="
   },
