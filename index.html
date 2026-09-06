@@ -543,6 +543,18 @@ steinbach.text1 = "Riegeführung Klasse 6a als Vertretung für PIE: Übernahme v
 steinbach.ueberschrift2 = "";
 steinbach.text2 = "";
 
+const brecht = teachers.find(person => person.kuerzel === "BRE");
+brecht.ueberschrift1 = "Krankheitsbedingter Ausfall";
+brecht.text1 = "Du bist krankheitsbedingt abwesend. Deine Vertretung bei der Klasse 8c übernimmt SIN von 10:00 Uhr bis 12:20 Uhr.";
+brecht.ueberschrift2 = "";
+brecht.text2 = "";
+
+const stein = teachers.find(person => person.kuerzel === "SIN");
+stein.ueberschrift1 = "10:00 Uhr - 12:20 Uhr";
+stein.text1 = "Riegeführung Klasse 8c als Vertretung für BRE: Übernahme von FAL um 10:00 Uhr bei Standweitsprung B. Anschließend führst du die Klasse gemeinsam mit dem Riegeteam nach dem Ablaufplan von Station zu Station. Den Ablaufplan findest du unten im Infomaterial. Um 12:15 Uhr bringst du die Klasse zu ihrem Tribünenplatz für die Siegerehrung. Danke für deine Unterstützung!";
+stein.ueberschrift2 = "12:40 Uhr - 13:00 Uhr";
+stein.text2 = "Aufsicht an der Busstraße.";
+
 teachers.forEach(person => {
   person.text1 = person.text1
     .replace(
@@ -1178,7 +1190,7 @@ function getRiegeTeacherCodes(student){
   const klasse = match[1].trim();
   const assignmentStart = "Riegeführung Klasse " + klasse;
   return teachers
-    .filter(person => person.kuerzel !== "PIE")
+    .filter(person => !["PIE", "BRE"].includes(person.kuerzel))
     .filter(person => [person.text1, person.text2].some(text => String(text || "").includes(assignmentStart)))
     .map(person => person.kuerzel);
 }
