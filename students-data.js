@@ -120,7 +120,7 @@ window.STUDENT_DATA = [
     "nachname": "Bolon",
     "vorname": "Elisa",
     "zeit": "07:40 - 12:20",
-    "aufgabe": "Riegeführung Klasse 10b: Elisa Bolon, Lucy Kaspe, Robin Kauff, Grigo Pogho",
+    "aufgabe": "Riegeführung Klasse 10b: Elisa Bolon, Lucy Kaspe, Robin Kauff",
     "info": "Treffpunkt 7:40 Uhr im Stadion auf der Tribüne bei eurer zu betreuenden Gruppe. Im Infomaterial findet ihr den genauen Platz! Nach der Begrüßung durch die Schulleitung begleitet ihr eure Gruppe von Station zu Station. Danke für euren Einsatz.",
     "zugangscodeSalt": "AP6IZS0NsUxYeWne2pE/PA==",
     "zugangscodeHash": "A70nwzHN5HjJd8BhM/u/WTZVyKX4FRKohyL7J3Rt8Dc="
@@ -642,7 +642,7 @@ window.STUDENT_DATA = [
     "nachname": "Kaspe",
     "vorname": "Lucy",
     "zeit": "07:40 - 12:20",
-    "aufgabe": "Riegeführung Klasse 10b: Elisa Bolon, Lucy Kaspe, Robin Kauff, Grigo Pogho",
+    "aufgabe": "Riegeführung Klasse 10b: Elisa Bolon, Lucy Kaspe, Robin Kauff",
     "info": "Treffpunkt 7:40 Uhr im Stadion auf der Tribüne bei eurer zu betreuenden Gruppe. Im Infomaterial findet ihr den genauen Platz! Nach der Begrüßung durch die Schulleitung begleitet ihr eure Gruppe von Station zu Station. Danke für euren Einsatz.",
     "zugangscodeSalt": "aU44M/AQFtyQ/f70IBTU7Q==",
     "zugangscodeHash": "8MZYlBFAEUJrhg98Sb8PoAOYiZIWC8fNujNlOA6FYVc="
@@ -651,7 +651,7 @@ window.STUDENT_DATA = [
     "nachname": "Kauff",
     "vorname": "Robin",
     "zeit": "07:40 - 12:20",
-    "aufgabe": "Riegeführung Klasse 10b: Elisa Bolon, Lucy Kaspe, Robin Kauff, Grigo Pogho",
+    "aufgabe": "Riegeführung Klasse 10b: Elisa Bolon, Lucy Kaspe, Robin Kauff",
     "info": "Treffpunkt 7:40 Uhr im Stadion auf der Tribüne bei eurer zu betreuenden Gruppe. Im Infomaterial findet ihr den genauen Platz! Nach der Begrüßung durch die Schulleitung begleitet ihr eure Gruppe von Station zu Station. Danke für euren Einsatz.",
     "zugangscodeSalt": "CqovPX/pe3xZFArJKa8o+g==",
     "zugangscodeHash": "/+5ITDuyvrSLCdXeYyd6ZSrJtlVv8TDtLAO+DHUjJFQ="
@@ -1114,15 +1114,6 @@ window.STUDENT_DATA = [
     "info": "Liebe Sanitäter, ihr habt dieses Jahr eine besondere Aufgabe. Ihr (Luzie Burkh, Anna Resed, Lina Phili, Dorot Eich) kümmert euch um die Wehwehchen der Sportler während des Tags. Wir stellen euch einen Tisch und eine Bank. Für das medizinische Material wendet euch bitte an Frau Feit. Auf dem Stadionplan seht ihr, wo sich die Sanitäterstation befindet. DANKE!",
     "zugangscodeSalt": "r7tTz3cmERfoNhYYk1zetQ==",
     "zugangscodeHash": "spbE3hfMV2jsyVK7JFwodjYKgOynJgjVPMO/0XtSgnM="
-  },
-  {
-    "nachname": "Pogho",
-    "vorname": "Grigo",
-    "zeit": "07:40 - 12:20",
-    "aufgabe": "Riegeführung Klasse 10b: Elisa Bolon, Lucy Kaspe, Robin Kauff, Grigo Pogho",
-    "info": "Treffpunkt 7:40 Uhr im Stadion auf der Tribüne bei eurer zu betreuenden Gruppe. Im Infomaterial findet ihr den genauen Platz! Nach der Begrüßung durch die Schulleitung begleitet ihr eure Gruppe von Station zu Station. Danke für euren Einsatz.",
-    "zugangscodeSalt": "6SI70QdnGw3aYiv6x0hcPg==",
-    "zugangscodeHash": "uwtx16DvnGBqCmvWRp93NjeCfFjuWNBDsTX9tcpv7tM="
   },
   {
     "nachname": "Pott",
