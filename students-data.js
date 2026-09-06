@@ -4,7 +4,7 @@ window.STUDENT_DATA = [
     "vorname": "Anesa",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Hochsprung",
-    "info": "Bitte um 07:40 Uhr bei der Station Hochsprung zur Einführung kommen! Eure Stationsgruppe: Lea-S Feder, Lea Heinz, Emma Glaße, Anesa Abdul, Max Newil, Alina Horst.",
+    "info": "Bitte um 07:40 Uhr bei der Station Hochsprung zur Einführung kommen! Eure Stationsgruppe: Lea-S Feder, Lea Heinz, Emma Glaße, Anesa Abdul, Max Newil.",
     "zugangscodeSalt": "sDw/bNXi7pOhiq6i/0pnMw==",
     "zugangscodeHash": "jGF8uU1Vk9HbXY//iT6swz2vFAAPqPKAs5VOVLhUbjo="
   },
@@ -382,7 +382,7 @@ window.STUDENT_DATA = [
     "vorname": "Lea-S",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Hochsprung",
-    "info": "Bitte um 07:40 Uhr bei der Station Hochsprung zur Einführung kommen! Eure Stationsgruppe: Lea-S Feder, Lea Heinz, Emma Glaße, Anesa Abdul, Max Newil, Alina Horst.",
+    "info": "Bitte um 07:40 Uhr bei der Station Hochsprung zur Einführung kommen! Eure Stationsgruppe: Lea-S Feder, Lea Heinz, Emma Glaße, Anesa Abdul, Max Newil.",
     "zugangscodeSalt": "RtPv7uXb0d1/vkl+nl1H2Q==",
     "zugangscodeHash": "XMHLMymBuoQagc9XjNaQKbCRuBOOHRLLBvua803wC64="
   },
@@ -445,7 +445,7 @@ window.STUDENT_DATA = [
     "vorname": "Emma",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Hochsprung",
-    "info": "Bitte um 07:40 Uhr bei der Station Hochsprung zur Einführung kommen! Eure Stationsgruppe: Lea-S Feder, Lea Heinz, Emma Glaße, Anesa Abdul, Max Newil, Alina Horst.",
+    "info": "Bitte um 07:40 Uhr bei der Station Hochsprung zur Einführung kommen! Eure Stationsgruppe: Lea-S Feder, Lea Heinz, Emma Glaße, Anesa Abdul, Max Newil.",
     "zugangscodeSalt": "+qEwGVOKWndvpYOTPY83zg==",
     "zugangscodeHash": "FTYmN3gEDTW3fKEtGRPC9Na6rPHN6f59IQNW5ZQoLM8="
   },
@@ -562,7 +562,7 @@ window.STUDENT_DATA = [
     "vorname": "Lea",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Hochsprung",
-    "info": "Bitte um 07:40 Uhr bei der Station Hochsprung zur Einführung kommen! Eure Stationsgruppe: Lea-S Feder, Lea Heinz, Emma Glaße, Anesa Abdul, Max Newil, Alina Horst.",
+    "info": "Bitte um 07:40 Uhr bei der Station Hochsprung zur Einführung kommen! Eure Stationsgruppe: Lea-S Feder, Lea Heinz, Emma Glaße, Anesa Abdul, Max Newil.",
     "zugangscodeSalt": "Zvx/C74XOP+88cIota8sXw==",
     "zugangscodeHash": "/qhT7HIQ/+woLbTTdztITfwnEEH6DX9mtCVOsLrNo8w="
   },
@@ -601,15 +601,6 @@ window.STUDENT_DATA = [
     "info": "Treffpunkt 7:40 Uhr im Stadion auf der Tribüne bei eurer zu betreuenden Gruppe. Im Infomaterial findet ihr den genauen Platz! Nach der Begrüßung durch die Schulleitung begleitet ihr eure Gruppe von Station zu Station. Danke für euren Einsatz.",
     "zugangscodeSalt": "eHepyLn6B5qHJBGsedrJpA==",
     "zugangscodeHash": "kGKbLgO8CBMa+RNIDJdvI+zcHnq2u8jOND5CTuqiLkU="
-  },
-  {
-    "nachname": "Horst",
-    "vorname": "Alina",
-    "zeit": "07:40 - 12:15",
-    "aufgabe": "Hochsprung",
-    "info": "Bitte um 07:40 Uhr bei der Station Hochsprung zur Einführung kommen! Eure Stationsgruppe: Lea-S Feder, Lea Heinz, Emma Glaße, Anesa Abdul, Max Newil, Alina Horst.",
-    "zugangscodeSalt": "ObRD4CX+/2+yaeWfv4BVxA==",
-    "zugangscodeHash": "I3xgExf7I02BrUdHzyiGN/GA8+Xdm4cRbJErNVM0ot0="
   },
   {
     "nachname": "Huckl",
@@ -1066,7 +1057,7 @@ window.STUDENT_DATA = [
     "vorname": "Max",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Hochsprung",
-    "info": "Bitte um 07:40 Uhr bei der Station Hochsprung zur Einführung kommen! Eure Stationsgruppe: Lea-S Feder, Lea Heinz, Emma Glaße, Anesa Abdul, Max Newil, Alina Horst.",
+    "info": "Bitte um 07:40 Uhr bei der Station Hochsprung zur Einführung kommen! Eure Stationsgruppe: Lea-S Feder, Lea Heinz, Emma Glaße, Anesa Abdul, Max Newil.",
     "zugangscodeSalt": "uJE4atyZRvClztFewAaK9A==",
     "zugangscodeHash": "JqQklpK9QZZmS8urgDodImKmhpF175uQqZaf6AaGWGg="
   },
@@ -1710,3 +1701,4 @@ window.STUDENT_DATA = [
     "zugangscodeHash": "k8R61u2B8EAy+ewa9VvUJoIItO5Q8JHILwbJJfD0i8Y="
   }
 ];
+
