@@ -175,7 +175,7 @@ window.STUDENT_DATA = [
     "vorname": "Luca",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitsprung B",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung B zur Einführung kommen! Eure Stationsgruppe: Zoe Gretz, Sara Eidih, Yvain Kirkw, Mina Türkm, Ronja Deuts, Luca Bucke.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung B zur Einführung kommen! Eure Stationsgruppe: Zoe Gretz, Yvain Kirkw, Mina Türkm, Ronja Deuts, Luca Bucke.",
     "zugangscodeSalt": "a9CtVmJ1UuXKFDSJyie5CA==",
     "zugangscodeHash": "bnV/79JZZBaJfMCJ24H+I9ESzsy0s3kT0VQSyNV2zSc="
   },
@@ -256,7 +256,7 @@ window.STUDENT_DATA = [
     "vorname": "Ronja",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitsprung B",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung B zur Einführung kommen! Eure Stationsgruppe: Zoe Gretz, Sara Eidih, Yvain Kirkw, Mina Türkm, Ronja Deuts, Luca Bucke.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung B zur Einführung kommen! Eure Stationsgruppe: Zoe Gretz, Yvain Kirkw, Mina Türkm, Ronja Deuts, Luca Bucke.",
     "zugangscodeSalt": "ub68zFF7BSOEHOngS9EQfg==",
     "zugangscodeHash": "9Ec4Tqm7EsTyiCSrjRIxQ55RwB97K6Y8APoubl0rG5g="
   },
@@ -322,15 +322,6 @@ window.STUDENT_DATA = [
     "info": "Liebe Sanitäter, ihr habt dieses Jahr eine besondere Aufgabe. Ihr (Luzie Burkh, Anna Resed, Lina Phili, Dorot Eich) kümmert euch um die Wehwehchen der Sportler während des Tags. Wir stellen euch einen Tisch und eine Bank. Für das medizinische Material wendet euch bitte an Frau Feit. Auf dem Stadionplan seht ihr, wo sich die Sanitäterstation befindet. DANKE!",
     "zugangscodeSalt": "GX5oPDTyncBAW7NQpWi9AA==",
     "zugangscodeHash": "6laMrDBvtWCUCqVYeMrdPBjzTIB0uOQrrZ6L2sgZBSs="
-  },
-  {
-    "nachname": "Eidih",
-    "vorname": "Sara",
-    "zeit": "07:40 - 12:15",
-    "aufgabe": "Weitsprung B",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung B zur Einführung kommen! Eure Stationsgruppe: Zoe Gretz, Sara Eidih, Yvain Kirkw, Mina Türkm, Ronja Deuts, Luca Bucke.",
-    "zugangscodeSalt": "Hlqr0DmEZXPZlIjmr6Dh2g==",
-    "zugangscodeHash": "csrdplMolQ8OIw/VT08eSmiDtSxVStO86ELGx14CSdA="
   },
   {
     "nachname": "Eise",
@@ -463,7 +454,7 @@ window.STUDENT_DATA = [
     "vorname": "Zoe",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitsprung B",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung B zur Einführung kommen! Eure Stationsgruppe: Zoe Gretz, Sara Eidih, Yvain Kirkw, Mina Türkm, Ronja Deuts, Luca Bucke.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung B zur Einführung kommen! Eure Stationsgruppe: Zoe Gretz, Yvain Kirkw, Mina Türkm, Ronja Deuts, Luca Bucke.",
     "zugangscodeSalt": "4slbYYoqxg0onIi1iFvxrQ==",
     "zugangscodeHash": "9wuLgwZKPTlMyjniga/Kq2REazlTnV+GF1Vc+Ek+TUk="
   },
@@ -688,7 +679,7 @@ window.STUDENT_DATA = [
     "vorname": "Yvain",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitsprung B",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung B zur Einführung kommen! Eure Stationsgruppe: Zoe Gretz, Sara Eidih, Yvain Kirkw, Mina Türkm, Ronja Deuts, Luca Bucke.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung B zur Einführung kommen! Eure Stationsgruppe: Zoe Gretz, Yvain Kirkw, Mina Türkm, Ronja Deuts, Luca Bucke.",
     "zugangscodeSalt": "LODFOfs57IcA+SW1l8W35A==",
     "zugangscodeHash": "2zJsq34Lk7nmC/Az/Z7o8/zmHC2ud9M0T1219gL6ws8="
   },
@@ -1507,7 +1498,7 @@ window.STUDENT_DATA = [
     "vorname": "Mina",
     "zeit": "07:40 - 12:15",
     "aufgabe": "Weitsprung B",
-    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung B zur Einführung kommen! Eure Stationsgruppe: Zoe Gretz, Sara Eidih, Yvain Kirkw, Mina Türkm, Ronja Deuts, Luca Bucke.",
+    "info": "Bitte um 07:40 Uhr bei der Station Weitsprung B zur Einführung kommen! Eure Stationsgruppe: Zoe Gretz, Yvain Kirkw, Mina Türkm, Ronja Deuts, Luca Bucke.",
     "zugangscodeSalt": "wKL8A4zCjB0lJWnhNNrLUw==",
     "zugangscodeHash": "B5lOVz0oDTmNzUUhzw1vdVJBnk1T/NQZY5tdz4wPd6Y="
   },
