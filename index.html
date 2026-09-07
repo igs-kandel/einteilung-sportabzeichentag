@@ -217,6 +217,36 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
   letter-spacing:.04em;
 }
 
+#startScreen{
+  overflow:hidden;
+}
+.celebration-message{
+  position:relative;
+  z-index:5;
+  width:min(1000px,90vw);
+  padding:30px 38px;
+  border:2px solid rgba(255,255,255,.78);
+  border-radius:30px;
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  box-shadow:0 20px 50px rgba(0,0,0,.25);
+  color:#0f172a;
+  font-size:clamp(2rem,6vw,5rem);
+  font-weight:950;
+  line-height:1.2;
+  text-align:center;
+  text-shadow:0 2px 0 rgba(255,255,255,.8);
+}
+#celebrationCanvas{
+  position:fixed;
+  inset:0;
+  z-index:4;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+
 
 .eis-hinweis-box{
   display:block;
@@ -352,16 +382,8 @@ dialog::backdrop{background:rgba(0,0,0,.35)}
 <img src="background_landscape.jpg" class="bg landscape" alt="">
 
 <main id="startScreen" class="screen active">
-  <div class="start-title">
-    <div class="start-main">Sportabzeichentag der <span style="color:red;">I</span><span style="color:#facc15;">G</span><span style="color:green;">S</span> Kandel</div>
-    <div class="start-date">07. September 2026</div>
-    <div class="start-final">FINALE EINTEILUNG</div>
-  </div>
-  <div class="button-wrapper">
-    <button class="glass-btn" onclick="showTeacherMenu()">Lehrer</button>
-    <button class="glass-btn" onclick="showStudentMenu()">Schüler</button>
-    <button class="glass-btn" onclick="openTeams()">Teams</button>
-  </div>
+  <canvas id="celebrationCanvas" aria-hidden="true"></canvas>
+  <div class="celebration-message">Danke für euren Einsatz und das schöne Sportfest!</div>
 </main>
 
 
@@ -1411,6 +1433,93 @@ function openMaterial(images){
 function closeMaterial(){
   document.getElementById("materialDialog").close();
 }
+
+function startCelebration(){
+  const canvas = document.getElementById("celebrationCanvas");
+  if(!canvas) return;
+  const context = canvas.getContext("2d");
+  const colors = ["#ef4444", "#facc15", "#22c55e", "#3b82f6", "#a855f7", "#f97316", "#ec4899", "#ffffff"];
+  const particles = [];
+  let width = 0;
+  let height = 0;
+  let pixelRatio = 1;
+  let nextSide = "left";
+
+  function resizeCelebration(){
+    pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+  }
+
+  function fireConfetti(side){
+    const fromLeft = side === "left";
+    const originX = fromLeft ? -10 : width + 10;
+    const originY = height * .88;
+    for(let index = 0; index < 46; index += 1){
+      const speed = 10 + Math.random() * 10;
+      const angle = fromLeft
+        ? (-1.2 + Math.random() * .58)
+        : (-1.94 - Math.random() * .58);
+      particles.push({
+        x:originX,
+        y:originY,
+        vx:Math.cos(angle) * speed,
+        vy:Math.sin(angle) * speed,
+        gravity:.22 + Math.random() * .08,
+        drag:.992,
+        rotation:Math.random() * Math.PI,
+        rotationSpeed:(Math.random() - .5) * .35,
+        width:6 + Math.random() * 8,
+        height:3 + Math.random() * 6,
+        color:colors[Math.floor(Math.random() * colors.length)],
+        life:0,
+        maxLife:210 + Math.random() * 80
+      });
+    }
+    if(particles.length > 420) particles.splice(0, particles.length - 420);
+  }
+
+  function drawCelebration(){
+    context.clearRect(0, 0, width, height);
+    for(let index = particles.length - 1; index >= 0; index -= 1){
+      const particle = particles[index];
+      particle.life += 1;
+      particle.vx *= particle.drag;
+      particle.vy += particle.gravity;
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+      particle.rotation += particle.rotationSpeed;
+      if(particle.life > particle.maxLife || particle.y > height + 30){
+        particles.splice(index, 1);
+        continue;
+      }
+      context.save();
+      context.translate(particle.x, particle.y);
+      context.rotate(particle.rotation);
+      context.fillStyle = particle.color;
+      context.fillRect(-particle.width / 2, -particle.height / 2, particle.width, particle.height);
+      context.restore();
+    }
+    requestAnimationFrame(drawCelebration);
+  }
+
+  resizeCelebration();
+  window.addEventListener("resize", resizeCelebration);
+  fireConfetti("left");
+  setTimeout(() => fireConfetti("right"), 350);
+  setInterval(() => {
+    fireConfetti(nextSide);
+    nextSide = nextSide === "left" ? "right" : "left";
+  }, 900);
+  requestAnimationFrame(drawCelebration);
+}
+
+startCelebration();
 </script>
 </body>
 </html>
