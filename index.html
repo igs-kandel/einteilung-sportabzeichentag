@@ -565,6 +565,18 @@ const freundlich = teachers.find(person => person.kuerzel === "FRE");
 freundlich.ueberschrift2 = "10:00 Uhr - 11:00 Uhr";
 freundlich.text2 = "Riegeführung Klasse 8b als Vertretung für ZAM: Übernahme von KGU um 10:00 Uhr am Tribünenplatz der Klasse 8b. Anschließend führst du die Klasse gemeinsam mit dem Riegeteam nach dem Ablaufplan von Station zu Station. Den Ablaufplan findest du unten im Infomaterial. Um 11:00 Uhr endet deine Vertretung bei Sprint B. Danke für deine Unterstützung!";
 
+const wilhelm = teachers.find(person => person.kuerzel === "WIL");
+wilhelm.ueberschrift1 = "Krankheitsbedingter Ausfall";
+wilhelm.text1 = "Du bist krankheitsbedingt abwesend. Deine Vertretung bei der Klasse 6b übernimmt URG von 07:40 Uhr bis 12:20 Uhr.";
+wilhelm.ueberschrift2 = "";
+wilhelm.text2 = "";
+
+const uhrig = teachers.find(person => person.kuerzel === "URG");
+uhrig.ueberschrift1 = "07:40 Uhr - 12:20 Uhr";
+uhrig.text1 = "Riegeführung Klasse 6b als Vertretung für WIL: Treffpunkt mit der Klasse 6b um 07:40 Uhr an ihrem Tribünenplatz (siehe Infomaterial). Auf dem Weg dorthin Riegemappe bei der Turnierleitung abholen und Anwesenheit prüfen. Nach der Begrüßung durch die Schulleitung führst du die Klasse mit deinem Riegeteam den gesamten Vormittag von Station zu Station. Den Ablaufplan findest du unten im Infomaterial. Um 12:15 Uhr bringst du die Klasse zu ihrem Tribünenplatz für die Siegerehrung. Deine Einteilung endet um 12:20 Uhr. Danke für deine Unterstützung!";
+uhrig.ueberschrift2 = "";
+uhrig.text2 = "";
+
 teachers.forEach(person => {
   person.text1 = person.text1
     .replace(
@@ -1200,7 +1212,7 @@ function getRiegeTeacherCodes(student){
   const klasse = match[1].trim();
   const assignmentStart = "Riegeführung Klasse " + klasse;
   return teachers
-    .filter(person => !["PIE", "BRE", "ZAM"].includes(person.kuerzel))
+    .filter(person => !["PIE", "BRE", "ZAM", "WIL"].includes(person.kuerzel))
     .filter(person => [person.text1, person.text2].some(text => String(text || "").includes(assignmentStart)))
     .map(person => person.kuerzel);
 }
